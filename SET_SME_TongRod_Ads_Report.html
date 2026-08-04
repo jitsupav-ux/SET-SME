@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SME ต้องรอด 2026 — Daily Ads Performance</title>
+<title>SME ต้องรอด 2026 — Register by Campaign (ci) Dashboard</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"></script>
@@ -32,7 +32,6 @@ body{font-family:'IBM Plex Sans Thai',sans-serif;background:var(--bg);color:var(
 .head-title{border-left:3px solid var(--yellow);padding-left:14px}
 .head-title h1{font-size:16.5px;font-weight:700;letter-spacing:.2px}
 .head-title p{font-size:11.5px;color:var(--muted)}
-/* calendar filter */
 .filters{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .date-box{display:flex;align-items:center;gap:6px;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:6px 12px}
 .date-box label{font-size:11px;color:var(--muted);font-weight:600}
@@ -63,9 +62,9 @@ section{margin-bottom:26px}
 .reg-card .pace b{color:var(--yellow)}
 .reg-card .foot{font-size:10.5px;color:#8E8E8E;margin-top:10px}
 .reg-split{width:100%;margin-top:14px;display:flex;flex-direction:column;gap:6px}
-.rs-row{display:grid;grid-template-columns:112px 1fr 36px 40px;align-items:center;gap:7px;font-size:11px;text-align:left}
+.rs-row{display:grid;grid-template-columns:150px 1fr 40px 46px;align-items:center;gap:7px;font-size:11px;text-align:left}
 .rs-pct{font-family:'Outfit';font-size:10.5px;font-weight:700;color:var(--yellow);text-align:right;background:rgba(249,178,51,.13);border-radius:8px;padding:1px 5px}
-.rs-row .rs-nm{color:#D8D8D8;font-weight:600;white-space:nowrap}
+.rs-row .rs-nm{color:#D8D8D8;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .rs-row .rs-nm i{color:#8E8E8E;font-style:normal;font-size:10px}
 .rs-bar{height:7px;background:rgba(255,255,255,.12);border-radius:4px;overflow:hidden;display:block}
 .rs-bar i{display:block;height:100%;border-radius:4px}
@@ -85,525 +84,1073 @@ section{margin-bottom:26px}
 .kpi-delta{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;font-weight:700;margin-top:7px;padding:2.5px 9px;border-radius:20px}
 .kpi-delta.pos{color:#0B7A57;background:rgba(16,185,129,.12)}
 .kpi-delta.warn{color:#8A5A08;background:rgba(245,158,11,.15)}
+.kpi-delta.neg{color:#8A1E1E;background:rgba(239,68,68,.12)}
 .kpi-delta.neu{color:var(--muted);background:var(--bg)}
 
-/* ===== QR STORY ===== */
-.qr-flow{display:grid;grid-template-columns:1fr 44px 1fr 44px 1fr 44px 1fr;gap:6px;align-items:stretch}
-@media(max-width:900px){.qr-flow{grid-template-columns:1fr;gap:8px}.qr-arrow{transform:rotate(90deg);margin:0 auto;height:30px}}
-.qr-step{background:#fff;border:1.5px solid var(--border);border-radius:var(--r-md);padding:16px;text-align:center;display:flex;flex-direction:column;justify-content:center}
-.qr-step.hot{border-color:var(--yellow);background:var(--yellow-pale)}
-.qr-step .ic{font-size:24px;margin-bottom:6px}
-.qr-step .v{font-family:'Outfit';font-size:23px;font-weight:800}
-.qr-step .t{font-size:12px;color:var(--muted);font-weight:600;margin-top:2px}
-.qr-arrow{display:flex;align-items:center;justify-content:center;color:var(--yellow-dark);font-size:22px;font-weight:800}
-.hook-strip{margin-top:14px;background:var(--black);color:#fff;border-radius:var(--r-md);padding:14px 20px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
-.hook-strip .x4{font-family:'Outfit';font-size:30px;font-weight:800;color:var(--yellow);white-space:nowrap}
-.hook-strip p{font-size:13px}
+/* ==== CAMPAIGN CI TABLE ==== */
+.ci-table{width:100%;border-collapse:collapse;font-size:13px}
+.ci-table th{text-align:left;padding:10px 8px;background:var(--bg);color:var(--muted);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;border-bottom:2px solid var(--border)}
+.ci-table th.num{text-align:right}
+.ci-table td{padding:10px 8px;border-bottom:1px solid var(--border);vertical-align:middle}
+.ci-table td.num{text-align:right;font-family:'Outfit';font-weight:600}
+.ci-table tr.paid td.ci-name{border-left:3px solid var(--yellow);padding-left:10px}
+.ci-table tr.organic td.ci-name{border-left:3px solid #9C9C9C;padding-left:10px}
+.ci-table tr.awareness td.ci-name{border-left:3px solid #D9D9D9;padding-left:10px}
+.ci-table tr:hover{background:var(--yellow-pale)}
+.ci-table .ci-name{font-family:'Outfit';font-size:12.5px;font-weight:600;color:var(--black);word-break:break-all}
+.ci-table .ci-role{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.4px;background:var(--yellow);color:var(--black);border-radius:4px;padding:1.5px 6px;margin-left:6px;vertical-align:1px;text-transform:uppercase}
+.ci-table .ci-role.org{background:#EFEFEF;color:var(--gray)}
+.ci-table .ci-role.aw{background:#F2F2F2;color:#888}
+.ci-bar{position:relative;height:8px;background:var(--bg);border-radius:4px;overflow:hidden;margin-top:4px}
+.ci-bar i{display:block;height:100%;background:var(--yellow);border-radius:4px}
+.tag-hot{color:#0B7A57;font-weight:700}
+.tag-warn{color:#8A5A08;font-weight:700}
+.tag-neg{color:#8A1E1E;font-weight:700}
 
-/* ===== TABLE ===== */
-table{width:100%;border-collapse:collapse;font-size:13px}
-th{background:var(--black);color:#fff;text-align:left;padding:9px 12px;font-weight:600;white-space:nowrap;font-size:12px}
-th:first-child{border-radius:8px 0 0 0}th:last-child{border-radius:0 8px 0 0}
-th.num,td.num{text-align:right;font-variant-numeric:tabular-nums}
-td{padding:9px 12px;border-bottom:1px solid var(--border)}
-tr:hover td{background:var(--yellow-pale)}
-tr.total td{background:#FBF6EA;font-weight:700;border-top:2px solid var(--yellow)}
-.pill{display:inline-block;padding:2px 10px;border-radius:12px;font-size:11.5px;font-weight:700}
+/* chart wraps */
+.chart-wrap{position:relative;height:340px}
+.chart-wrap.small{height:280px}
+.chart-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:14px}
+@media(max-width:900px){.chart-grid{grid-template-columns:1fr}}
+
+/* linkly section */
+.linkly-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+.link-card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:14px 16px}
+.link-card .lk-name{font-size:12px;font-weight:600;line-height:1.4;color:var(--gray)}
+.link-card .lk-role{font-size:9.5px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.link-card .lk-role b{color:var(--yellow-dark)}
+.link-card .lk-num{font-family:'Outfit';font-size:26px;font-weight:800;color:var(--black);margin-top:8px;line-height:1}
+.link-card .lk-sub{font-size:11px;color:var(--muted);margin-top:4px}
+.link-card .lk-today{display:inline-block;margin-top:6px;font-size:10.5px;font-weight:700;background:var(--yellow-pale);color:var(--yellow-dark);border-radius:20px;padding:2px 9px}
+
+/* insights */
+.insight-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:900px){.insight-grid{grid-template-columns:1fr}}
+.insight{background:#fff;border:1px solid var(--border);border-radius:14px;padding:18px;position:relative;overflow:hidden}
+.insight::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px}
+.insight.good::before{background:var(--positive)}
+.insight.better::before{background:var(--warning)}
+.insight.next::before{background:var(--yellow-dark)}
+.insight .tag{font-size:10.5px;letter-spacing:1px;font-weight:800;text-transform:uppercase;padding:2px 9px;border-radius:20px;display:inline-block}
+.insight.good .tag{background:rgba(16,185,129,.12);color:#0B7A57}
+.insight.better .tag{background:rgba(245,158,11,.15);color:#8A5A08}
+.insight.next .tag{background:rgba(224,154,20,.14);color:var(--yellow-dark)}
+.insight .h{font-size:15px;font-weight:700;margin:8px 0 6px}
+.insight p{font-size:12.5px;color:var(--gray);line-height:1.6}
+.insight .item{background:var(--bg);border-radius:8px;padding:8px 12px;margin-top:8px;font-size:12px}
+.insight .item b{color:var(--black)}
+
+/* notes */
+.note{font-size:11px;color:var(--muted);margin-top:8px;font-style:italic}
+.pill{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;background:var(--bg);color:var(--gray)}
 .pill.g{background:rgba(16,185,129,.12);color:#0B7A57}
 .pill.a{background:rgba(245,158,11,.15);color:#8A5A08}
-.pill.d{background:var(--bg);color:var(--muted)}
+.pill.d{background:rgba(107,114,128,.14);color:var(--gray)}
+.pill.y{background:var(--yellow-pale);color:var(--yellow-dark)}
 
-.grid2{display:grid;grid-template-columns:3fr 2fr;gap:16px}
-@media(max-width:900px){.grid2{grid-template-columns:1fr}}
-.chartbox{position:relative;height:280px}
-.note{font-size:11px;color:var(--muted);margin-top:8px}
+.legend-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px;font-size:11.5px;color:var(--muted)}
+.lg-dot{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
 
-/* ===== ADSET MINI ===== */
+/* funnel — new side-by-side compact */
+.funnel-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:900px){.funnel-row{grid-template-columns:1fr}}
+.funnel-col{background:#fff;border:1px solid var(--border);border-radius:var(--r-md);padding:16px;box-shadow:var(--shadow-sm);display:flex;flex-direction:column}
+.funnel-head{border-bottom:1px solid var(--border);padding-bottom:10px;margin-bottom:12px}
+.fh-tag{font-size:9.5px;font-weight:800;letter-spacing:.8px;color:var(--yellow-dark);text-transform:uppercase}
+.fh-name{font-family:'Outfit';font-size:14px;font-weight:700;color:var(--black);margin-top:2px;word-break:break-all}
+.fh-cr{font-size:12px;color:var(--muted);margin-top:4px}
+.fh-cr b{font-family:'Outfit';font-size:14px;color:var(--black);margin-left:2px}
+.fh-cr.hot b{color:var(--yellow-dark)}
+.funnel-body{display:flex;flex-direction:column;gap:10px}
+.fb-step{position:relative;background:var(--bg);border-radius:8px;padding:10px 12px}
+.fb-step.hot{background:var(--yellow-pale)}
+.fb-bar{position:relative;height:6px;background:#EEE;border-radius:3px;overflow:hidden;margin-bottom:6px}
+.fb-fill{position:absolute;left:0;top:0;height:100%;border-radius:3px;transition:width .4s ease}
+.fb-lbl{font-size:11px;color:var(--muted);font-weight:600;display:inline-block}
+.fb-v{font-family:'Outfit';font-size:20px;font-weight:800;color:var(--black);float:right;line-height:1}
+.fb-pct{font-size:10.5px;color:var(--yellow-dark);font-weight:700;margin-top:3px;clear:both}
+.fb-step.hot .fb-v{color:var(--yellow-dark)}
+
+/* Channel group table */
+.ch-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:900px){.ch-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.ch-grid{grid-template-columns:1fr}}
+.ch-card{background:#fff;border:1px solid var(--border);border-radius:var(--r-md);padding:16px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden}
+.ch-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px}
+.ch-card.paid-social::before{background:var(--yellow)}
+.ch-card.line::before{background:#06C755}
+.ch-card.display::before{background:#4285F4}
+.ch-card.sem::before{background:#EA4335}
+.ch-card.organic::before{background:#9C9C9C}
+.ch-card.direct::before{background:#C9C9C9}
+.ch-tag{font-size:10px;font-weight:800;letter-spacing:.6px;color:var(--muted);text-transform:uppercase}
+.ch-name{font-size:14px;font-weight:700;color:var(--black);margin-top:3px}
+.ch-nums{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:12px}
+.ch-num{text-align:center}
+.ch-num .n{font-family:'Outfit';font-size:20px;font-weight:800;color:var(--black);line-height:1}
+.ch-num .l{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin-top:2px}
+.ch-num.reg .n{color:var(--yellow-dark)}
+.ch-share{margin-top:12px;height:6px;background:var(--bg);border-radius:3px;overflow:hidden}
+.ch-share i{display:block;height:100%;background:var(--yellow);border-radius:3px}
+.ch-share-lbl{font-size:11px;color:var(--muted);margin-top:5px;display:flex;justify-content:space-between}
+.ch-share-lbl b{color:var(--yellow-dark);font-family:'Outfit';font-weight:700}
+.ch-cr{margin-top:8px;font-size:11.5px;color:var(--gray)}
+.ch-cr b{color:var(--black);font-family:'Outfit'}
+
+/* Customer analysis */
 .aud-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
 @media(max-width:900px){.aud-grid{grid-template-columns:repeat(2,1fr)}}
-.aud{background:#fff;border:1px solid var(--border);border-radius:var(--r-md);padding:14px 16px}
-.aud .nm{font-size:12.5px;font-weight:700}
-.aud .cost{font-family:'Outfit';font-size:22px;font-weight:800;margin:4px 0 2px}
-.aud .sub{font-size:11px;color:var(--muted)}
-.aud .bar{height:6px;border-radius:4px;background:var(--bg);margin-top:8px;overflow:hidden}
-.aud .bar i{display:block;height:100%;border-radius:4px;background:var(--yellow)}
+@media(max-width:500px){.aud-grid{grid-template-columns:1fr}}
+.aud-card{background:#fff;border:1px solid var(--border);border-radius:var(--r-md);padding:16px;position:relative}
+.aud-card .aud-h{font-size:13px;font-weight:700;color:var(--black);margin-bottom:2px;display:flex;align-items:center;gap:6px}
+.aud-card .aud-sub{font-size:11px;color:var(--muted);margin-bottom:12px}
+.aud-card .aud-cost{font-family:'Outfit';font-size:26px;font-weight:800;color:var(--black);line-height:1}
+.aud-card .aud-cost-lbl{font-size:10.5px;color:var(--muted);margin-top:2px}
+.aud-card .aud-stats{display:flex;gap:10px;margin-top:10px;padding-top:10px;border-top:1px dashed var(--border);font-size:11px;color:var(--gray)}
+.aud-card .aud-stats b{color:var(--black);font-family:'Outfit'}
+.aud-card .aud-bar{margin-top:10px;height:5px;background:var(--bg);border-radius:3px;overflow:hidden}
+.aud-card .aud-bar i{display:block;height:100%;background:var(--yellow);border-radius:3px}
+.aud-card.best{border-color:var(--yellow);background:var(--yellow-pale)}
+.aud-card.best .aud-cost{color:#0B7A57}
+.aud-badge{position:absolute;top:12px;right:12px;font-size:9.5px;font-weight:800;letter-spacing:.5px;padding:2px 7px;border-radius:20px;background:var(--yellow);color:var(--black);text-transform:uppercase}
 
-/* ===== NEXT ===== */
-.next-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-@media(max-width:800px){.next-grid{grid-template-columns:1fr}}
-.next{border-radius:var(--r-md);padding:16px 18px;background:#fff;border:1px solid var(--border);border-top:4px solid var(--yellow)}
-.next .h{font-weight:700;font-size:13.5px;margin-bottom:4px}
-.next p{font-size:12.5px;color:var(--muted)}
+/* Meta Cost Analysis */
+.cost-kpi-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:14px}
+@media(max-width:900px){.cost-kpi-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:500px){.cost-kpi-grid{grid-template-columns:repeat(2,1fr)}}
+.cost-kpi{background:#fff;border:1px solid var(--border);border-radius:10px;padding:12px 14px;position:relative}
+.cost-kpi::before{content:'';position:absolute;left:0;top:12px;bottom:12px;width:3px;background:var(--yellow);border-radius:2px}
+.cost-kpi .lbl{font-size:10px;font-weight:700;letter-spacing:.4px;color:var(--muted);text-transform:uppercase;padding-left:6px}
+.cost-kpi .v{font-family:'Outfit';font-size:20px;font-weight:800;color:var(--black);margin-top:2px;padding-left:6px;line-height:1.1}
+.cost-kpi .u{font-size:10.5px;color:var(--muted);padding-left:6px;margin-top:2px}
+.cost-kpi.hero{background:linear-gradient(135deg,#161616 0%,#2B2B2B 100%);color:#fff}
+.cost-kpi.hero::before{background:var(--yellow)}
+.cost-kpi.hero .lbl{color:#BFBFBF}
+.cost-kpi.hero .v{color:var(--yellow)}
+.cost-kpi.hero .u{color:#8E8E8E}
 
-footer{background:var(--black);color:#9A9A9A;font-size:11.5px;padding:18px 0;margin-top:20px}
-footer .wrap{padding:0 24px}
-footer b{color:var(--yellow)}
-@media print{.filters{display:none}.chartbox{height:230px}section{page-break-inside:avoid}}
+/* Traffic vs Awareness split */
+.split-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+@media(max-width:700px){.split-row{grid-template-columns:1fr}}
+.split-col{background:#fff;border:1px solid var(--border);border-radius:var(--r-md);padding:16px 18px;position:relative;overflow:hidden}
+.split-col.traffic{border-top:4px solid var(--yellow)}
+.split-col.awareness{border-top:4px solid #666}
+.split-col .st-tag{font-size:10.5px;font-weight:800;letter-spacing:.6px;color:var(--muted);text-transform:uppercase}
+.split-col .st-name{font-size:16px;font-weight:700;color:var(--black);margin-top:2px;margin-bottom:12px}
+.split-col .st-metrics{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.split-col .sm-item{background:var(--bg);border-radius:8px;padding:9px 12px}
+.split-col .sm-item .l{font-size:10.5px;color:var(--muted);font-weight:600;letter-spacing:.3px}
+.split-col .sm-item .v{font-family:'Outfit';font-size:16px;font-weight:700;color:var(--black);margin-top:2px}
+.split-col .st-note{margin-top:12px;font-size:11px;color:var(--gray);line-height:1.6;background:var(--yellow-pale);border-radius:8px;padding:8px 12px}
+.split-col.awareness .st-note{background:#F5F5F5}
+
+/* Cost by audience table */
+.cost-aud-table{width:100%;border-collapse:collapse;font-size:12.5px}
+.cost-aud-table th{text-align:left;padding:10px 8px;background:var(--bg);color:var(--muted);font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;border-bottom:2px solid var(--border)}
+.cost-aud-table th.num{text-align:right}
+.cost-aud-table td{padding:10px 8px;border-bottom:1px solid var(--border);vertical-align:middle}
+.cost-aud-table td.num{text-align:right;font-family:'Outfit';font-weight:600}
+.cost-aud-table td.name{font-weight:600}
+.cost-aud-table tr.best{background:linear-gradient(90deg,var(--yellow-pale) 0%,#fff 100%)}
+.cost-aud-table tr.best td.name{color:var(--yellow-dark)}
+.cost-aud-table tr:hover{background:var(--yellow-pale)}
+.cost-aud-table .heat-good{color:#0B7A57;font-weight:700}
+.cost-aud-table .heat-bad{color:#8A5A08;font-weight:700}
+
+/* Age × Gender demo table */
+.demo-table{width:100%;border-collapse:collapse;font-size:12.5px}
+.demo-table th,.demo-table td{padding:8px 10px;text-align:center;border-bottom:1px solid var(--border)}
+.demo-table th{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;background:var(--bg)}
+.demo-table .lead{text-align:left;font-weight:600;color:var(--black)}
+.demo-table .hot{background:var(--yellow-pale);font-weight:700;color:var(--yellow-dark)}
+.demo-table .num-f{font-family:'Outfit';font-weight:600}
+
 </style>
 </head>
 <body>
 
+<!-- ===== HEADER ===== -->
 <header class="app-header">
   <div class="top">
     <div class="brand">
-      <!-- SET logo -->
-      <svg width="92" height="40" viewBox="0 0 138 60" aria-label="SET">
-        <circle cx="30" cy="30" r="26" fill="#111111"/>
-        <path d="M4,30 a26,26 0 0 1 52,0 Z" fill="#F9B233"/>
-        <path d="M4,30 c9,-15 17,-15 26,0 c9,15 17,15 26,0" stroke="#ffffff" stroke-width="6.5" fill="none" stroke-linecap="round"/>
-        <text x="64" y="44" font-family="Outfit,sans-serif" font-size="40" font-weight="800" fill="#111111">SET</text>
-      </svg>
-      <div class="divider"></div>
-      <!-- LiVE Platform logo -->
-      <div class="live-logo"><div class="t">LiV<b>e</b></div><div class="p">PLATFORM</div></div>
+      <div class="live-logo">
+        <div class="t"><b>SET</b> SME</div>
+        <div class="p">ต้องรอด 2026</div>
+      </div>
       <div class="divider"></div>
       <div class="head-title">
-        <h1>SME ต้องรอด 2026 · Daily Ads Performance</h1>
-        <p>งานสัมมนา 22 ส.ค. 2569 · <span id="stampTxt">อัปเดต 29 ก.ค. 2026 · 09:57 น. — ไฟล์ Data Report ยังอัปเดตถึง 26 ก.ค. (รอข้อมูล 27–28 ก.ค.)</span></p>
+        <h1>Register by Campaign — Cross-Channel Performance</h1>
+        <p>GA4 Session Campaign × Register · Meta Ads Live: 20 ก.ค. · Data: 3 ส.ค. · Event: 22 ส.ค. 2026 · KPI 1,818 · 30 วัน</p>
       </div>
     </div>
     <div class="filters">
-      <div class="date-box"><label>จาก</label><input type="date" id="dFrom" min="2026-07-20" value="2026-07-20"></div>
-      <div class="date-box"><label>ถึง</label><input type="date" id="dTo" min="2026-07-20" value="2026-07-26"></div>
-      <button class="chip on" id="chipAll">ทั้งหมด</button>
-      <button class="chip" id="chip3">3 วันล่าสุด</button>
-      <button class="chip" id="chipY">เมื่อวาน</button>
+      <div class="date-box"><label>จาก</label><input type="date" id="dFrom" value="2026-07-16" min="2026-07-16" max="2026-08-03"></div>
+      <div class="date-box"><label>ถึง</label><input type="date" id="dTo" value="2026-08-03" min="2026-07-16" max="2026-08-03"></div>
+      <button class="chip" data-r="7">7 วันล่าสุด</button>
+      <button class="chip" data-r="14">14 วันล่าสุด</button>
+      <button class="chip on" data-r="all">ทั้งหมด</button>
     </div>
   </div>
 </header>
 
 <div class="wrap">
 
-<!-- HERO: REGISTER KPI -->
+<!-- ============================================================ -->
+<!-- ============  HERO — REGISTER KPI + PROGRESS  =============== -->
+<!-- ============================================================ -->
 <section>
   <div class="hero">
+    <!-- LEFT: Register progress ring -->
     <div class="reg-card">
       <div class="lbl">CAMPAIGN KPI · REGISTER</div>
       <div class="ring">
         <svg width="172" height="172">
           <circle cx="86" cy="86" r="74" stroke="#3A3A3A" stroke-width="13" fill="none"/>
           <circle id="ringFill" cx="86" cy="86" r="74" stroke="#F9B233" stroke-width="13" fill="none"
-            stroke-linecap="round" stroke-dasharray="465" stroke-dashoffset="221"/>
+                  stroke-dasharray="465" stroke-dashoffset="378" stroke-linecap="round"/>
         </svg>
         <div class="center">
-          <div class="big num-f" id="regBig">955</div>
-          <div class="of">จากเป้า <b>1,818</b></div>
+          <div class="big num-f" id="regBig">338</div>
+          <div class="of">of 1,818 · <span id="regPct">18.6%</span></div>
         </div>
       </div>
-      <div class="pace" id="paceTxt">เฉลี่ย <b>136/วัน</b> — pace นี้ถึงเป้าในอีก <b>~7 วัน</b></div>
+      <div class="pace">Pace <b id="pace">21.1/day</b> · since Meta live (20 ก.ค.)</div>
       <div class="reg-split">
-        <div class="rs-row"><span class="rs-nm">Direct <i>(QR จากแอด)</i></span><span class="rs-bar"><i style="width:100%;background:var(--yellow)"></i></span><b class="num-f">443</b><span class="rs-pct">46.4%</span></div>
-        <div class="rs-row"><span class="rs-nm">Referral <i>(Organic)</i></span><span class="rs-bar"><i style="width:86%;background:#8C8C8C"></i></span><b class="num-f">381</b><span class="rs-pct">39.9%</span></div>
-        <div class="rs-row"><span class="rs-nm">Paid Social FB/IG</span><span class="rs-bar"><i style="width:25%;background:var(--yellow)"></i></span><b class="num-f">111</b><span class="rs-pct">11.6%</span></div>
-        <div class="rs-row"><span class="rs-nm">LINE Broadcast</span><span class="rs-bar"><i style="width:3.4%;background:#06C755"></i></span><b class="num-f">15</b><span class="rs-pct">1.6%</span></div>
-        <div class="rs-row"><span class="rs-nm">Organic Social</span><span class="rs-bar"><i style="width:1.2%;background:#C9C9C9"></i></span><b class="num-f">5</b><span class="rs-pct">0.5%</span></div>
+        <div class="rs-row"><span class="rs-nm">Content01 Traffic <i>(main)</i></span><span class="rs-bar"><i style="width:100%;background:var(--yellow)"></i></span><b class="num-f">247</b><span class="rs-pct">73.1%</span></div>
+        <div class="rs-row"><span class="rs-nm">Line broadcast</span><span class="rs-bar"><i style="width:22%;background:var(--yellow)"></i></span><b class="num-f">55</b><span class="rs-pct">16.3%</span></div>
+        <div class="rs-row"><span class="rs-nm">Agenda Sessions</span><span class="rs-bar"><i style="width:10%;background:var(--yellow)"></i></span><b class="num-f">24</b><span class="rs-pct">7.1%</span></div>
+        <div class="rs-row"><span class="rs-nm">(not set) <i>(direct/other)</i></span><span class="rs-bar"><i style="width:3%;background:#8C8C8C"></i></span><b class="num-f">8</b><span class="rs-pct">2.4%</span></div>
+        <div class="rs-row"><span class="rs-nm">Organic</span><span class="rs-bar"><i style="width:2%;background:#8C8C8C"></i></span><b class="num-f">4</b><span class="rs-pct">1.2%</span></div>
       </div>
-      <div class="foot">* Register = GA4 "Important activities" (รอยืนยันนิยามกับระบบลงทะเบียน)</div>
+      <div class="foot">* Register = GA4 event <b style="color:#CFCFCF">"Summit Register"</b> · grouped by <b style="color:#CFCFCF">Session Campaign (ci)</b></div>
     </div>
 
+    <!-- RIGHT: KPIs -->
     <div class="hero-right">
       <div class="kpi-grid">
-        <div class="kpi-card"><div class="kpi-label">Ad Spend</div><div class="kpi-value num-f">฿5,516</div><span class="kpi-delta neu">Meta · 20–26 ก.ค.</span></div>
-        <div class="kpi-card"><div class="kpi-label">Cost / Response</div><div class="kpi-value num-f">฿2.68</div><span class="kpi-delta pos">~2,059 responses (LPV+QR)</span></div>
-        <div class="kpi-card"><div class="kpi-label">Cost / Register*</div><div class="kpi-value num-f">฿49.7</div><span class="kpi-delta warn">ยังต่ำกว่าเกณฑ์ ฿55 — แต่ขยับขึ้นจาก ฿37.6</span></div>
-        <div class="kpi-card"><div class="kpi-label">CPC</div><div class="kpi-value num-f">฿1.94</div><span class="kpi-delta pos">เกณฑ์ 15–17 · ถูกกว่า ~8 เท่า</span></div>
-        <div class="kpi-card"><div class="kpi-label">CPM</div><div class="kpi-value num-f">฿15.90</div><span class="kpi-delta pos">เกณฑ์ 15–39</span></div>
-        <div class="kpi-card"><div class="kpi-label">Cost / Reach</div><div class="kpi-value num-f">฿0.017</div><span class="kpi-delta pos">เกณฑ์ 0.020–0.064</span></div>
+        <div class="kpi-card"><div class="kpi-label">Total Register</div><div class="kpi-value num-f">338</div><span class="kpi-delta pos">15 วัน Meta live · 21.1/วัน</span></div>
+        <div class="kpi-card"><div class="kpi-label">Total Sessions</div><div class="kpi-value num-f">8,521</div><span class="kpi-delta neu">Register rate 3.97%</span></div>
+        <div class="kpi-card"><div class="kpi-label">Engaged Sessions</div><div class="kpi-value num-f">2,111</div><span class="kpi-delta neu">Participation 24.8%</span></div>
+        <div class="kpi-card"><div class="kpi-label">Paid Media Register</div><div class="kpi-value num-f">326</div><span class="kpi-delta pos">96.4% ของ Register</span></div>
+        <div class="kpi-card"><div class="kpi-label">Best Day</div><div class="kpi-value num-f">54</div><span class="kpi-delta pos">30 ก.ค. · Line surge</span></div>
+        <div class="kpi-card"><div class="kpi-label">Days Left to Event</div><div class="kpi-value num-f">18</div><span class="kpi-delta warn">4 → 22 ส.ค. · Gap 1,480</span></div>
       </div>
-      <p class="note">* Cost/Register คิดจาก spend ฝั่ง Meta (20–26 ก.ค.) ÷ register ที่ GA4 บันทึกฝั่ง Paid Social (111 · ช่วงเดียวกัน — ข้อมูลสองฝั่งถึงวันเดียวกัน) · ยังไม่รวม register ที่มาทาง QR → Direct · ตัวเลขทางการรอ reconcile ระบบลงทะเบียน</p>
+      <p class="note">* Meta ads live 20 ก.ค. · ผ่านมา 15 วัน register 338 (18.6% of KPI) · pace 22.5/วัน · เหลือ 18 วันถึง event 22 ส.ค. — ต้องเร่งช่องทาง conversion + retarget</p>
     </div>
   </div>
 </section>
 
-<!-- REGISTER BY CHANNEL -->
+<!-- ============================================================ -->
+<!-- ============  SECTION: PERFORMANCE × CHANNEL GROUP  ========= -->
+<!-- ============================================================ -->
 <section>
-  <div class="sec-title">Register มาจากช่องทางไหน</div>
-  <div class="sec-sub">แยก <b style="color:var(--yellow-dark)">Paid Media (ผลงานฝั่ง ads)</b> ออกจาก <b>Organic</b> (Referral / Organic Social — ไม่นับเป็น performance ฝั่ง Agency)</div>
-  <div class="grid2">
-    <div class="card"><div class="chartbox" style="height:250px"><canvas id="regChannelChart"></canvas></div></div>
-    <div class="card" style="display:flex;flex-direction:column;justify-content:center">
-      <div class="chartbox" style="height:170px"><canvas id="paidOrgChart"></canvas></div>
-      <div style="display:flex;gap:10px;margin-top:12px">
-        <div style="flex:1;background:var(--yellow-pale);border:1px solid var(--yellow);border-radius:10px;padding:10px 14px;text-align:center">
-          <div class="num-f" style="font-size:22px;font-weight:800">~525</div>
-          <div style="font-size:11.5px;font-weight:700">Paid Media · 55%</div>
-          <div style="font-size:10.5px;color:var(--muted)">Ads FB/IG + QR + LINE + GDN</div>
-        </div>
-        <div style="flex:1;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:10px 14px;text-align:center">
-          <div class="num-f" style="font-size:22px;font-weight:800;color:var(--gray)">~430</div>
-          <div style="font-size:11.5px;font-weight:700">Organic · 45%</div>
-          <div style="font-size:10.5px;color:var(--muted)">Referral + Organic + พิมพ์เอง</div>
-        </div>
+  <div class="sec-title">Performance · Channel Group เทียบ Register</div>
+  <div class="sec-sub">รวม campaign ตามช่องทางหลัก · <b>Paid Social (FB/IG)</b> เป็นแกน 80% ของ register · <b>Line OA</b> conv rate ดีสุด 5.36% · <b>GDN / SEM ยัง 0</b> ต้องแก้ tracking + bid</div>
+  <div class="ch-grid">
+
+    <div class="ch-card paid-social">
+      <div class="ch-tag">CHANNEL GROUP</div>
+      <div class="ch-name">Paid Social (FB/IG)</div>
+      <div class="ch-nums">
+        <div class="ch-num"><div class="n num-f">7,351</div><div class="l">Sessions</div></div>
+        <div class="ch-num"><div class="n num-f">1,691</div><div class="l">Engaged</div></div>
+        <div class="ch-num reg"><div class="n num-f">271</div><div class="l">Register</div></div>
       </div>
+      <div class="ch-share"><i style="width:80.2%"></i></div>
+      <div class="ch-share-lbl"><span>Share of Register</span><b>80.2%</b></div>
+      <div class="ch-cr">CR <b>3.69%</b> · Content01 + Content02 + Awareness + Painpoint (5 campaigns)</div>
     </div>
+
+    <div class="ch-card line">
+      <div class="ch-tag">CHANNEL GROUP · ⭐ BEST CR</div>
+      <div class="ch-name">Line OA (Broadcast)</div>
+      <div class="ch-nums">
+        <div class="ch-num"><div class="n num-f">1,027</div><div class="l">Sessions</div></div>
+        <div class="ch-num"><div class="n num-f">404</div><div class="l">Engaged</div></div>
+        <div class="ch-num reg"><div class="n num-f">55</div><div class="l">Register</div></div>
+      </div>
+      <div class="ch-share"><i style="width:16.3%;background:#06C755"></i></div>
+      <div class="ch-share-lbl"><span>Share of Register</span><b style="color:#06C755">16.3%</b></div>
+      <div class="ch-cr">CR <b>5.36%</b> · Engagement 39.3% (สูงสุดในทุก channel)</div>
+    </div>
+
+    <div class="ch-card display">
+      <div class="ch-tag">CHANNEL GROUP · ⚠ TRACKING ISSUE</div>
+      <div class="ch-name">Display (GDN)</div>
+      <div class="ch-nums">
+        <div class="ch-num"><div class="n num-f">76</div><div class="l">Sessions</div></div>
+        <div class="ch-num"><div class="n num-f">0</div><div class="l">Engaged</div></div>
+        <div class="ch-num reg"><div class="n num-f" style="color:var(--negative)">0</div><div class="l">Register</div></div>
+      </div>
+      <div class="ch-share"><i style="width:0.5%;background:#4285F4"></i></div>
+      <div class="ch-share-lbl"><span>Share of Register</span><b style="color:var(--negative)">0.0%</b></div>
+      <div class="ch-cr">Engaged=0 → GA4 event ไม่ firing · <b>ต้อง debug ทันที</b></div>
+    </div>
+
+    <div class="ch-card sem">
+      <div class="ch-tag">CHANNEL GROUP · เพิ่งเริ่ม 3 ส.ค.</div>
+      <div class="ch-name">Paid Search (SEM)</div>
+      <div class="ch-nums">
+        <div class="ch-num"><div class="n num-f">8</div><div class="l">Sessions</div></div>
+        <div class="ch-num"><div class="n num-f">1</div><div class="l">Engaged</div></div>
+        <div class="ch-num reg"><div class="n num-f" style="color:var(--negative)">0</div><div class="l">Register</div></div>
+      </div>
+      <div class="ch-share"><i style="width:0.1%;background:#EA4335"></i></div>
+      <div class="ch-share-lbl"><span>Share of Register</span><b style="color:var(--negative)">0.0%</b></div>
+      <div class="ch-cr">Max-Click strategy · รอ 3-5 วันดู signal · keyword coverage อาจต่ำ</div>
+    </div>
+
+    <div class="ch-card organic">
+      <div class="ch-tag">CHANNEL GROUP</div>
+      <div class="ch-name">Organic Social</div>
+      <div class="ch-nums">
+        <div class="ch-num"><div class="n num-f">19</div><div class="l">Sessions</div></div>
+        <div class="ch-num"><div class="n num-f">11</div><div class="l">Engaged</div></div>
+        <div class="ch-num reg"><div class="n num-f">4</div><div class="l">Register</div></div>
+      </div>
+      <div class="ch-share"><i style="width:1.2%;background:#9C9C9C"></i></div>
+      <div class="ch-share-lbl"><span>Share of Register</span><b>1.2%</b></div>
+      <div class="ch-cr">CR <b>21.05%</b> · volume เล็กแต่คุณภาพ traffic ดีเยี่ยม</div>
+    </div>
+
+    <div class="ch-card direct">
+      <div class="ch-tag">CHANNEL GROUP</div>
+      <div class="ch-name">Direct / Referral / (not set)</div>
+      <div class="ch-nums">
+        <div class="ch-num"><div class="n num-f">40</div><div class="l">Sessions</div></div>
+        <div class="ch-num"><div class="n num-f">4</div><div class="l">Engaged</div></div>
+        <div class="ch-num reg"><div class="n num-f">8</div><div class="l">Register</div></div>
+      </div>
+      <div class="ch-share"><i style="width:2.4%;background:#C9C9C9"></i></div>
+      <div class="ch-share-lbl"><span>Share of Register</span><b>2.4%</b></div>
+      <div class="ch-cr">CR 20% · UTM หลุด (in-app browser) → true source อาจเป็น paid</div>
+    </div>
+
   </div>
 
-  <!-- DIRECT DECOMPOSITION -->
   <div class="card" style="margin-top:14px">
-    <div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:12px">
-      <span style="font-weight:700;font-size:14.5px">เจาะ Direct 1,711 sessions — จริง ๆ แล้วมาจากไหน</span>
-      <span style="font-size:11.5px;color:var(--muted)">(โมเดลประมาณการจาก Linkly + GA4 — UTM หลุดใน in-app browser ทำให้ทุกอย่างไปกองที่ Direct)</span>
-    </div>
-    <div style="display:flex;height:34px;border-radius:9px;overflow:hidden;font-family:'Outfit';font-weight:700;font-size:12px;color:#111">
-      <div style="width:83%;background:var(--yellow);display:flex;align-items:center;justify-content:center">Facebook/IG (QR) 83%</div>
-      <div style="width:10%;background:#DCDCDC;display:flex;align-items:center;justify-content:center">10%</div>
-      <div style="width:7%;background:#06C755;display:flex;align-items:center;justify-content:center;color:#fff">7%</div>
-    </div>
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px" class="direct-legend">
-      <div><span class="pill g">Facebook/IG — QR scan</span><div style="font-size:12.5px;margin-top:4px"><b class="num-f">~1,413 sessions</b> → Register ~366<br><span style="color:var(--muted);font-size:11px">คนเห็นแอดแล้วสแกน QR บนภาพ KV</span></div></div>
-      <div><span class="pill d">พิมพ์เอง / Bookmark</span><div style="font-size:12.5px;margin-top:4px"><b class="num-f">~171 sessions</b> → Register ~44<br><span style="color:var(--muted);font-size:11px">true direct (สมมติ 10%)</span></div></div>
-      <div><span class="pill" style="background:rgba(6,199,85,.12);color:#04803A">LINE Broadcast</span><div style="font-size:12.5px;margin-top:4px"><b class="num-f">~127 sessions</b> → Register ~33<br><span style="color:var(--muted);font-size:11px">Linkly นับสะสม 139 คลิก (ขยับจาก 133 — มีคลิกใหม่หลัง 26 ก.ค.) แต่ UTM หลุด GA4 เห็นแค่ 6</span></div></div>
-      <div><span class="pill" style="background:rgba(66,133,244,.12);color:#2A64C8">Google GDN</span><div style="font-size:12.5px;margin-top:4px"><b class="num-f">~0 sessions</b><br><span style="color:var(--muted);font-size:11px">Linkly 65 คลิก — GA4 ฝั่ง Paid Search เห็นครบแล้ว แทบไม่รั่วมา Direct</span></div></div>
-    </div>
-    <p class="note">สรุปให้ลูกค้า: Direct ก้อนใหญ่ ≈ 9 ใน 10 คือผลจากสื่อที่ยิง (QR จากแอด + LINE) ไม่ใช่คนพิมพ์ URL เอง — แยก QR code รายแคมเปญรอบหน้าแล้วจะวัดตรงได้เลยไม่ต้องประมาณ</p>
+    <h4 style="font-size:13px;font-weight:700;margin-bottom:10px">Channel Group vs KPI · Register share</h4>
+    <div class="chart-wrap small"><canvas id="channelChart"></canvas></div>
   </div>
 </section>
 
-<!-- QR STORY -->
+<!-- ============================================================ -->
+<!-- ==========  SECTION: REGISTER BY CAMPAIGN (CI)  ============ -->
+<!-- ============================================================ -->
 <section>
-  <div class="sec-title">Direct ไม่ได้มาเอง — มันคือคน<b style="color:var(--yellow-dark)">สแกน QR จากแอด</b></div>
-  <div class="sec-sub">ภาพ KV ที่โปรโมทฝัง QR ไว้ — คนเห็นแอดแล้วยกมือถือสแกน GA4 จึงบันทึกเป็น "Direct"</div>
-  <div class="qr-flow">
-    <div class="qr-step"><div class="ic">📢</div><div class="v num-f">347,005</div><div class="t">คนเห็นแอด (Impressions)</div></div>
-    <div class="qr-arrow">›</div>
-    <div class="qr-step"><div class="ic">📱</div><div class="v num-f">×4.6</div><div class="t">Scan rate เฉลี่ยช่วงแอดออน vs ก่อนแอด</div></div>
-    <div class="qr-arrow">›</div>
-    <div class="qr-step hot"><div class="ic">🔗</div><div class="v num-f">1,711</div><div class="t">Direct sessions (≈83% มาจาก QR)</div></div>
-    <div class="qr-arrow">›</div>
-    <div class="qr-step hot"><div class="ic">✅</div><div class="v num-f">443</div><div class="t">Register จาก Direct (rate 25.9%)</div></div>
-  </div>
-  <div class="hook-strip">
-    <div class="x4">8.8 → ~41</div>
-    <p>สแกน/วัน ก่อนแอดออน เทียบช่วงแอดออน — จุดพีคคือ 23 ก.ค. วันเดียว <b style="color:var(--yellow)">108 ครั้ง</b> แต่หลังจากนั้นแผ่วลงต่อเนื่อง เหลือราว ๆ 20 ต้น ๆ/วันช่วงสุดสัปดาห์ · Register จาก Direct (443) + Referral (381) รวมกันคือ <b style="color:var(--yellow)">86% ของ Register ทั้งหมด</b> และส่วนใหญ่จุดสตาร์ทคือแอดที่คนเห็น</p>
-  </div>
-</section>
-
-<!-- DAILY PERFORMANCE -->
-<section>
-  <div class="sec-title">Performance รายวัน</div>
-  <div class="sec-sub" id="rangeSub">เลือกช่วงวันที่จากปฏิทินมุมขวาบน — ตาราง กราฟ และตัวเลขปรับตามทันที</div>
-  <div class="grid2">
-    <div class="card"><div class="chartbox"><canvas id="dailyChart"></canvas></div></div>
-    <div class="card">
-      <div class="kpi-grid" style="grid-template-columns:repeat(2,1fr)">
-        <div class="kpi-card"><div class="kpi-label">Register (ช่วงที่เลือก)</div><div class="kpi-value num-f" id="fReg">955</div><span class="kpi-delta pos" id="fRegAvg">เฉลี่ย 136/วัน</span></div>
-        <div class="kpi-card"><div class="kpi-label">Sessions (ช่วงที่เลือก)</div><div class="kpi-value num-f" id="fSess">6,945</div><span class="kpi-delta neu" id="fRate">Register rate 13.8%</span></div>
-      </div>
-      <div class="chartbox" style="height:158px;margin-top:10px"><canvas id="mixChart"></canvas></div>
-    </div>
-  </div>
-  <div class="card" style="margin-top:14px;overflow-x:auto">
-    <table id="dailyTable">
-      <thead><tr>
-        <th>วันที่</th><th class="num">Register</th><th class="num">Sessions</th><th class="num">Direct (QR)</th><th class="num">Paid Social</th><th class="num">Referral</th><th class="num">Display GDN</th><th class="num">Reg. rate</th>
-      </tr></thead>
-      <tbody></tbody>
-    </table>
-    <p class="note">Register = GA4 key events (รอยืนยันนิยาม) · GA4 กับ Meta ถึง 26 ก.ค. เท่ากัน — <b>ข้อมูล 27–28 ก.ค. ยังไม่ถูกเติมในไฟล์ Data Report</b> รอบนี้จึงยังไม่มีแถวใหม่ · สังเกตเสาร์–อาทิตย์ (25–26 ก.ค.) Register หล่นแรงเหลือ 12 และ 27 — Direct/Referral แผ่วเกือบหมดขณะที่แอดยังพาคนเข้าเว็บต่อเนื่อง · Display GDN วิ่ง session เข้ามาแต่ยังไม่มี register — รอแก้ tracking ก่อนตัดสิน (2 ส.ค.)</p>
-  </div>
-
-  <!-- CHANNEL FUNNEL -->
-  <div class="card" style="margin-top:14px;overflow-x:auto">
-    <div style="font-weight:700;font-size:14.5px;margin-bottom:2px">Performance รายช่องทาง — จาก Session สู่ Conversion</div>
-    <div style="font-size:11.5px;color:var(--muted);margin-bottom:12px">Status สำคัญของ user: เข้าเว็บ (Session) → มีส่วนร่วม (Engaged) → ลงทะเบียน (Register) — ปรับตามช่วงวันที่ที่เลือก</div>
-    <table id="chFunnel">
-      <thead><tr>
-        <th>ช่องทาง</th><th class="num">Sessions</th><th style="min-width:170px">Engaged (% ของ session)</th><th class="num">Register</th><th class="num">Conv. rate</th>
-      </tr></thead>
-      <tbody></tbody>
-    </table>
-    <p class="note">Engaged = participatory sessions ของ GA4 · บางช่องทาง Register อาจสูงกว่า Engaged ได้ เพราะ GA4 นับ event คนละมิติกับ session · สีเหลือง = Paid Media / เทา = Organic</p>
-  </div>
-</section>
-
-<!-- META DEEP-DIVE -->
-<section>
-  <div class="sec-title">Meta Ads Deep-dive — ทุก Key Metric</div>
-  <div class="sec-sub">Facebook / Instagram · 20–26 ก.ค. · แยก Traffic vs Awareness พร้อม Demographic ครบทุกมิติ</div>
-
-  <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:14px">
-    <div class="kpi-card"><div class="kpi-label">Frequency</div><div class="kpi-value num-f">1.07</div><span class="kpi-delta pos">ยังไม่ fatigue — scale ได้อีก</span></div>
-    <div class="kpi-card"><div class="kpi-label">CTR (Traffic)</div><div class="kpi-value num-f">2.43%</div><span class="kpi-delta pos">creative ยังทำงานดีต่อเนื่อง</span></div>
-    <div class="kpi-card"><div class="kpi-label">Register · Paid Social FB/IG</div><div class="kpi-value num-f">111</div><span class="kpi-delta warn">฿49.7 / register</span></div>
-    <div class="kpi-card"><div class="kpi-label">LPV Rate</div><div class="kpi-value num-f">63.9%</div><span class="kpi-delta neu">คลิกแล้วมาถึงหน้าเว็บจริง</span></div>
-  </div>
-
-  <div class="card" style="overflow-x:auto">
-    <table>
-      <thead><tr><th>Metric</th><th class="num">Traffic</th><th class="num">Awareness</th><th class="num">Meta รวม</th><th>อ่านผล</th></tr></thead>
+  <div class="sec-title">Register แยกตาม Session Campaign</div>
+  <div class="sec-sub">คีย์หลักของรายงาน — <b>Content01 Traffic</b> เป็นหลอดเลือดใหญ่ที่พา register 73% ของทั้งแคมเปญ · <b>Line broadcast</b> โผล่ขึ้นมาเป็นตัวที่ 2 หลัง 30 ก.ค.</div>
+  <div class="card">
+    <table class="ci-table">
+      <thead>
+        <tr>
+          <th>Campaign (ci)</th>
+          <th class="num">Sessions</th>
+          <th class="num">Engaged</th>
+          <th class="num">Register</th>
+          <th class="num">Conv. rate</th>
+          <th>สถานะ</th>
+        </tr>
+      </thead>
       <tbody>
-        <tr><td>Amount Spent</td><td class="num">฿3,651.27</td><td class="num">฿1,865.20</td><td class="num"><b>฿5,516.47</b></td><td>สัดส่วน 66 / 34</td></tr>
-        <tr><td>Impressions</td><td class="num">111,796</td><td class="num">235,209</td><td class="num">347,005</td><td>Awareness ครอง 68% ของ impressions</td></tr>
-        <tr><td>Reach</td><td class="num">95,279</td><td class="num">229,800</td><td class="num">325,079</td><td>รวมห้าช่วงรายงาน — คนที่เห็นหลายช่วงถูกนับซ้ำ</td></tr>
-        <tr><td>Frequency</td><td class="num">1.17</td><td class="num">1.02</td><td class="num">1.07</td><td>ความถี่ต่ำ — งบยังขยายได้โดยไม่ซ้ำหน้าเดิม</td></tr>
-        <tr><td>Link Clicks</td><td class="num">2,714</td><td class="num">131</td><td class="num">2,845</td><td></td></tr>
-        <tr><td>CTR</td><td class="num"><b>2.43%</b></td><td class="num">0.06%</td><td class="num">0.82%</td><td>Awareness ตอบสนองผ่าน QR ไม่ใช่คลิก</td></tr>
-        <tr><td>CPC</td><td class="num">฿1.35</td><td class="num">฿14.24</td><td class="num">฿1.94</td><td>เกณฑ์ pitch 15–17฿</td></tr>
-        <tr><td>CPM</td><td class="num">฿32.66</td><td class="num"><b>฿7.93</b></td><td class="num">฿15.90</td><td>Awareness ซื้อ eyeball ถูกมาก</td></tr>
-        <tr><td>Cost / 1,000 Reach</td><td class="num">฿38.32</td><td class="num">฿8.12</td><td class="num">฿16.97</td><td>เกณฑ์ 20–64฿</td></tr>
-        <tr><td>Landing Page Views</td><td class="num">1,735</td><td class="num">39</td><td class="num">1,774</td><td>LPV rate 63.9% ของคลิก</td></tr>
-        <tr><td>Cost / LPV</td><td class="num"><b>฿2.10</b></td><td class="num">฿47.83</td><td class="num">฿3.11</td><td>รวม QR แล้ว Awareness เหลือ ~฿5.8/response</td></tr>
-        <tr style="background:#FBF6EA"><td><b>Register (GA4 · Paid Social FB/IG)</b></td><td class="num">—</td><td class="num">—</td><td class="num"><b>111</b></td><td>Cost/Register ฿49.7 — ยังไม่รวม Register ที่มาทาง QR → Direct</td></tr>
+        <tr class="paid">
+          <td class="ci-name">SET_TongRod_July_Content01_Traffic <span class="ci-role">MAIN</span><div class="ci-bar"><i style="width:100%"></i></div></td>
+          <td class="num">6,106</td><td class="num">1,526</td><td class="num" style="color:var(--yellow-dark);font-size:15px">247</td><td class="num">4.05%</td>
+          <td><span class="tag-hot">พาหลัก 73%</span> · Reg rate สูงสุดใน paid</td>
+        </tr>
+        <tr class="paid">
+          <td class="ci-name">SET_TongRod_line_broadcast <span class="ci-role">LINE</span><div class="ci-bar"><i style="width:22%"></i></div></td>
+          <td class="num">1,027</td><td class="num">404</td><td class="num" style="color:var(--yellow-dark);font-size:15px">55</td><td class="num">5.36%</td>
+          <td><span class="tag-hot">Conv rate ดีสุด</span> · จุดพีค 30 ก.ค. (27 reg/วัน)</td>
+        </tr>
+        <tr class="paid">
+          <td class="ci-name">SET_TongRod_July_Content-02_Agenda-Sessions_traffic <span class="ci-role">AGENDA</span><div class="ci-bar"><i style="width:10%"></i></div></td>
+          <td class="num">1,165</td><td class="num">156</td><td class="num" style="color:var(--yellow-dark);font-size:15px">24</td><td class="num">2.06%</td>
+          <td><span class="tag-warn">Volume ดีแต่ conv รอง</span> · เพิ่งเริ่มยิง 30 ก.ค.</td>
+        </tr>
+        <tr class="paid">
+          <td class="ci-name">SET_TongRod_July_GDNKV_pageview <span class="ci-role">GDN</span></td>
+          <td class="num">76</td><td class="num">0</td><td class="num">0</td><td class="num">0.00%</td>
+          <td><span class="tag-neg">Tracking หลุด</span> · engaged=0 ผิดปกติ — ต้องแก้ tag</td>
+        </tr>
+        <tr class="paid">
+          <td class="ci-name">SET_TongRod_Jul_SEM_search_Max-Click_2026 <span class="ci-role">SEM</span></td>
+          <td class="num">8</td><td class="num">1</td><td class="num">0</td><td class="num">0.00%</td>
+          <td><span class="pill d">เพิ่งเริ่ม 3 ส.ค.</span></td>
+        </tr>
+        <tr class="awareness">
+          <td class="ci-name">SET_TongRod_July_Awareness_Content-02_Agenda-Sessions <span class="ci-role aw">AWARENESS</span></td>
+          <td class="num">69</td><td class="num">7</td><td class="num">0</td><td class="num">0.00%</td>
+          <td><span class="pill d">Awareness — คาดหวัง reach ไม่ใช่ reg</span></td>
+        </tr>
+        <tr class="awareness">
+          <td class="ci-name">SET_TongRod_July_Awareness_Content01_Main KV <span class="ci-role aw">AWARENESS</span></td>
+          <td class="num">10</td><td class="num">2</td><td class="num">0</td><td class="num">0.00%</td>
+          <td><span class="pill d">Awareness</span></td>
+        </tr>
+        <tr class="paid">
+          <td class="ci-name">SET_TongRod_Aug_Traffic_Content-03_Painpoint-solution <span class="ci-role">NEW</span></td>
+          <td class="num">1</td><td class="num">0</td><td class="num">0</td><td class="num">0.00%</td>
+          <td><span class="pill y">เพิ่งเริ่ม 3 ส.ค. — รอ signal</span></td>
+        </tr>
+        <tr class="organic">
+          <td class="ci-name">SET_TongRod_Organic <span class="ci-role org">ORGANIC</span></td>
+          <td class="num">19</td><td class="num">11</td><td class="num">4</td><td class="num">21.05%</td>
+          <td><span class="tag-hot">Conv rate สูงมาก</span> · volume เล็กแต่คุณภาพดี</td>
+        </tr>
+        <tr class="organic">
+          <td class="ci-name">(not set) / (referral) / (organic) — direct + อื่น ๆ</td>
+          <td class="num">40</td><td class="num">4</td><td class="num">8</td><td class="num">20.00%</td>
+          <td><span class="pill g">GA4 นับ event > session ได้</span></td>
+        </tr>
+        <tr style="background:#FBF6EA;font-weight:700">
+          <td class="ci-name" style="font-family:'IBM Plex Sans Thai'">รวมทั้งหมด</td>
+          <td class="num">8,521</td><td class="num">2,111</td><td class="num" style="font-size:15px;color:var(--black)">338</td><td class="num">3.97%</td>
+          <td>&nbsp;</td>
+        </tr>
       </tbody>
     </table>
-    <p class="note">หมายเหตุโครงสร้างข้อมูล: export ช่วง "23–24 ก.ค." ถูกดึงระหว่างวันที่ 24 (ไม่ครบวัน) ก่อนจะมี export รายวันของ 24 ก.ค. เต็มวันตามมา — วันที่ 23 จึงประมาณจากส่วนต่างของสอง export (แบบ floor) ทำให้ยอดสะสม Meta อาจต่ำกว่าจริงเล็กน้อย · to verify กับ Ads Manager</p>
-  </div>
-
-  <div class="grid2" style="margin-top:14px">
-    <div class="card"><div class="chartbox" style="height:260px"><canvas id="reachDemoChart"></canvas></div>
-      <p class="note">Awareness เทน้ำหนักไปผู้ชาย (78% ของ reach) ตาม audience ที่ตั้งไว้ — ก้อนใหญ่สุดคือชาย 35–44</p></div>
-    <div class="card"><div class="chartbox" style="height:260px"><canvas id="lpvDemoChart"></canvas></div>
-      <p class="note">ฝั่งคลิกเข้าเว็บ (Traffic) ชายนำทุกช่วงอายุ — Register จาก Meta pixel สะสม 6 ราย: หญิง 4 ชาย 2</p></div>
-  </div>
-
-  <div class="card" style="margin-top:14px">
-    <div class="grid2" style="grid-template-columns:1fr 1.4fr;align-items:center">
-      <div class="chartbox" style="height:240px"><canvas id="ctrPieChart"></canvas></div>
-      <div>
-        <div style="font-weight:700;font-size:14.5px;margin-bottom:8px">กลุ่มคนสนใจและ Click Ads</div>
-        <p style="font-size:13px;color:var(--muted)">สะสมครบสัปดาห์ CTR ทุกวัยยังเกาะกลุ่ม 2.3–2.5% — รอบนี้ <b style="color:var(--black)">35–44 ขึ้นนำที่ 2.50%</b> และกลายเป็นวัยที่มี pixel register มากสุด (3 จาก 6 ราย) · 45–54 ที่เคยนำถอยมาอยู่ 2.32% แต่ยังมี 2 registers ยืนยันว่า convert ได้จริง · 55–64 CTR 2.47% น่าสนใจแต่ volume ยังเล็ก (96 LPV) — คงน้ำหนัก 35–54 เป็นแกนหลักไปก่อน</p>
-      </div>
-    </div>
+    <p class="note">* Sessions/Engaged/Register นับที่ Session Campaign level · สีเหลืองซ้าย = Paid Media · เทา = Organic/Awareness · Line broadcast มี conv rate สูงสุดในกลุ่ม paid — คุ้มค่าลงทุนเพิ่ม</p>
   </div>
 </section>
 
-<!-- AUDIENCE -->
+<!-- ============================================================ -->
+<!-- ==============  SECTION: DAILY TREND CHART  ================= -->
+<!-- ============================================================ -->
 <section>
-  <div class="sec-title">กลุ่มเป้าหมายไหนคุ้มสุด</div>
-  <div class="sec-sub">Cost ต่อคนเข้าหน้าลงทะเบียน (LPV) — ยิ่งต่ำยิ่งดี · จุดที่มี Register จริงแล้ว = สัญญาณทอง</div>
-  <div class="aud-grid">
-    <div class="aud"><div class="nm">💰 Financial Seeker</div><div class="cost num-f" style="color:#0B7A57">฿1.86</div><div class="sub">133 LPV · <b>2 registers</b></div><div class="bar"><i style="width:86%"></i></div><span class="pill g" style="margin-top:8px;display:inline-block">ถูกสุดแล้วตอนนี้ + convert ดีสุดเทียบ LPV</span></div>
-    <div class="aud"><div class="nm">🚀 Tech-Driven SME</div><div class="cost num-f">฿2.02</div><div class="sub">297 LPV · <b>1 register</b></div><div class="bar"><i style="width:93%"></i></div><span class="pill g" style="margin-top:8px;display:inline-block">ต้นทุนยังนิ่ง — คงงบ</span></div>
-    <div class="aud"><div class="nm">👔 High-Value SME</div><div class="cost num-f">฿2.14</div><div class="sub">927 LPV · volume หลัก · <b>2 registers</b></div><div class="bar"><i style="width:99%"></i></div><span class="pill g" style="margin-top:8px;display:inline-block">ได้หญิง 35–44 เพิ่มเมื่อ 26 ก.ค.</span></div>
-    <div class="aud"><div class="nm">💎 Luxury</div><div class="cost num-f" style="color:#8A5A08">฿2.17</div><div class="sub">378 LPV · <b>1 register</b> (24 ก.ค.)</div><div class="bar"><i style="width:100%;background:#F59E0B"></i></div><span class="pill a" style="margin-top:8px;display:inline-block">ได้ reg แรกแล้ว — ดูต่อถึง 31 ก.ค.</span></div>
-  </div>
-
-  <div class="grid2" style="margin-top:14px">
-    <div class="card"><div class="chartbox" style="height:240px"><canvas id="ageChart"></canvas></div></div>
+  <div class="sec-title">Register รายวัน + Session รายช่องทาง</div>
+  <div class="sec-sub">แนวโน้ม 19 วัน · เส้นสีเหลืองเข้ม = Register · แท่งสี = Session แยก paid vs organic · จุดพีคที่ต้องดู: <b>30 ก.ค.</b> (Line surge · 54 reg)</div>
+  <div class="chart-grid">
     <div class="card">
-      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:12px">
-        <span style="font-weight:700;font-size:14px">เพศ — ใครถูกกว่า vs ใครสมัครจริง</span>
-        <span class="pill g">Register Paid Social FB/IG รวม = 111</span>
-      </div>
-      <div style="display:flex;gap:10px">
-        <div style="flex:1;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px 14px;text-align:center">
-          <div style="font-size:22px">👨</div><div class="num-f" style="font-size:21px;font-weight:800">฿2.09</div>
-          <div style="font-size:11px;color:var(--muted)">ต่อ LPV · 1,058 LPV</div>
-        </div>
-        <div style="flex:1;background:var(--yellow-pale);border:1px solid var(--yellow);border-radius:10px;padding:12px 14px;text-align:center">
-          <div style="font-size:22px">👩</div><div class="num-f" style="font-size:21px;font-weight:800">฿2.13</div>
-          <div style="font-size:11px;color:var(--muted)">ต่อ LPV · 669 LPV</div>
-        </div>
-      </div>
-      <div style="background:var(--black);color:#fff;border-radius:10px;padding:11px 15px;margin-top:12px;font-size:12.5px">
-        <b style="color:var(--yellow)">Hook:</b> ส่วนที่ Meta pixel ระบุตัวได้ (6 ราย) ผู้หญิงยังนำ 4:2 — สองรายล่าสุดคือ<b style="color:var(--yellow)">ชาย 35–44 จาก Luxury</b> (24 ก.ค. — reg แรกของกลุ่มนี้) และ<b style="color:var(--yellow)">หญิง 35–44 จาก High-Value</b> (26 ก.ค.) · sample ยังเล็กมาก รออีก 5–7 วันก่อน bias งบตามเพศ
+      <div class="chart-wrap"><canvas id="dailyChart"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="chart-wrap"><canvas id="ciDonut"></canvas></div>
+      <div class="legend-row" style="justify-content:center;margin-top:4px">
+        <span><span class="lg-dot" style="background:#F9B233"></span>Content01 Traffic 73%</span>
+        <span><span class="lg-dot" style="background:#E09A14"></span>Line broadcast 16%</span>
+        <span><span class="lg-dot" style="background:#8C8C8C"></span>Agenda 7%</span>
+        <span><span class="lg-dot" style="background:#C9C9C9"></span>อื่น ๆ 4%</span>
       </div>
     </div>
   </div>
 </section>
 
-<!-- NEXT -->
+<!-- ============================================================ -->
+<!-- ============  SECTION: FUNNEL BY MAIN CAMPAIGN  ============ -->
+<!-- ============================================================ -->
 <section>
-  <div class="sec-title">ทำอะไรต่อ (สัปดาห์นี้)</div>
-  <div class="next-grid">
-    <div class="next"><div class="h">1 · กู้ pace หลังสุดสัปดาห์ + เปิด Conversion campaign</div><p>เสาร์–อาทิตย์ Register หล่นเหลือ 12 และ 27/วัน ทั้งที่แอดยังพาคนเข้าเว็บ ~500 sessions/วัน — เปิด Conversion campaign ให้ Meta optimize ที่ "ลงทะเบียนสำเร็จ" ตรง ๆ และ retarget คน 1,774 LPV ที่ยังไม่สมัคร</p></div>
-    <div class="next"><div class="h">2 · ตามข้อมูล 27–28 ก.ค. เข้าไฟล์ + แยก QR code ราย campaign</div><p>ไฟล์ Data Report ยังจบที่ 26 ก.ค. — รายงานเดินต่อไม่ได้ถ้าไม่มี export ใหม่ · ระหว่างนี้แยก QR ของ Traffic กับ Awareness เป็นคนละตัว (Linkly ฟรี) จะได้เลิกประมาณผ่านโมเดล Direct</p></div>
-    <div class="next"><div class="h">3 · เคลียร์นิยาม Register กับทีม Tech (เลยกำหนด 25 ก.ค. แล้ว)</div><p>GA4 (955) vs Meta pixel (6) ยังห่างกันมาก — ต้อง reconcile กับระบบลงทะเบียนจริงก่อนรายงานตัวเลขทางการ ยิ่งใกล้วันงานยิ่งเลื่อนไม่ได้</p></div>
+  <div class="sec-title">Funnel: Sessions → Engaged → Register — Main Campaign</div>
+  <div class="sec-sub">3 campaign หลักเทียบกันในกรอบเดียว · <b>Line broadcast</b> conv rate ดีสุด 5.36% แต่ scale เล็ก · <b>Content01</b> pipe หลัก 73% ของ register · <b>Content02 Agenda</b> conv ต่ำสุด — content อาจสื่อยาก</div>
+  <div class="funnel-row">
+
+    <div class="funnel-col">
+      <div class="funnel-head">
+        <div class="fh-tag">MAIN · PAID SOCIAL</div>
+        <div class="fh-name">Content01_Traffic</div>
+        <div class="fh-cr">CR <b>4.05%</b></div>
+      </div>
+      <div class="funnel-body">
+        <div class="fb-step"><div class="fb-bar" style="width:100%"><div class="fb-fill" style="background:var(--black)"></div></div><div class="fb-lbl">Sessions</div><div class="fb-v num-f">6,106</div></div>
+        <div class="fb-step"><div class="fb-bar" style="width:100%"><div class="fb-fill" style="background:var(--gray);width:25.0%"></div></div><div class="fb-lbl">Engaged</div><div class="fb-v num-f">1,526</div><div class="fb-pct">25.0% of sess</div></div>
+        <div class="fb-step hot"><div class="fb-bar" style="width:100%"><div class="fb-fill" style="background:var(--yellow);width:4.05%"></div></div><div class="fb-lbl">Register</div><div class="fb-v num-f" style="color:var(--yellow-dark)">247</div><div class="fb-pct">4.05% of sess</div></div>
+      </div>
+    </div>
+
+    <div class="funnel-col">
+      <div class="funnel-head">
+        <div class="fh-tag">PAID · LINE OA</div>
+        <div class="fh-name">line_broadcast</div>
+        <div class="fh-cr hot">CR <b>5.36%</b> ⭐</div>
+      </div>
+      <div class="funnel-body">
+        <div class="fb-step"><div class="fb-bar" style="width:100%"><div class="fb-fill" style="background:var(--black)"></div></div><div class="fb-lbl">Sessions</div><div class="fb-v num-f">1,027</div></div>
+        <div class="fb-step"><div class="fb-bar" style="width:100%"><div class="fb-fill" style="background:var(--gray);width:39.3%"></div></div><div class="fb-lbl">Engaged</div><div class="fb-v num-f">404</div><div class="fb-pct">39.3% of sess</div></div>
+        <div class="fb-step hot"><div class="fb-bar" style="width:100%"><div class="fb-fill" style="background:var(--yellow);width:5.36%"></div></div><div class="fb-lbl">Register</div><div class="fb-v num-f" style="color:var(--yellow-dark)">55</div><div class="fb-pct">5.36% of sess</div></div>
+      </div>
+    </div>
+
+    <div class="funnel-col">
+      <div class="funnel-head">
+        <div class="fh-tag">PAID SOCIAL · CONTENT02</div>
+        <div class="fh-name">Agenda-Sessions_traffic</div>
+        <div class="fh-cr">CR <b>2.06%</b></div>
+      </div>
+      <div class="funnel-body">
+        <div class="fb-step"><div class="fb-bar" style="width:100%"><div class="fb-fill" style="background:var(--black)"></div></div><div class="fb-lbl">Sessions</div><div class="fb-v num-f">1,165</div></div>
+        <div class="fb-step"><div class="fb-bar" style="width:100%"><div class="fb-fill" style="background:var(--gray);width:13.4%"></div></div><div class="fb-lbl">Engaged</div><div class="fb-v num-f">156</div><div class="fb-pct">13.4% of sess</div></div>
+        <div class="fb-step hot"><div class="fb-bar" style="width:100%"><div class="fb-fill" style="background:var(--yellow);width:2.06%"></div></div><div class="fb-lbl">Register</div><div class="fb-v num-f" style="color:var(--yellow-dark)">24</div><div class="fb-pct">2.06% of sess</div></div>
+      </div>
+    </div>
+
   </div>
 </section>
+
+<!-- ============================================================ -->
+<!-- ================  SECTION: CUSTOMER ANALYSIS  =============== -->
+<!-- ============================================================ -->
+<section>
+  <div class="sec-title">Customer Analysis — Audience Segments × Demographic</div>
+  <div class="sec-sub">แยกตาม 4 กลุ่ม audience ที่ Meta targeting · <b>Financial Seeker</b> = cost ต่ำสุด + conv ดีสุด · <b>High-Value SME</b> = volume ใหญ่สุด · <b>Luxury</b> = แพงสุด</div>
+
+  <!-- 4 audience cards -->
+  <div class="aud-grid">
+    <div class="aud-card best">
+      <span class="aud-badge">BEST</span>
+      <div class="aud-h">💰 Financial Seeker & Distress SMEs</div>
+      <div class="aud-sub">SME ที่กำลังหาแหล่งเงินทุน / เครียดเรื่องกระแสเงินสด</div>
+      <div class="aud-cost">฿1.86</div>
+      <div class="aud-cost-lbl">Cost per LPV (ต่ำสุด)</div>
+      <div class="aud-stats">
+        <span><b>133</b> LPV</span>
+        <span>CTR <b>2.68%</b></span>
+        <span>CPM <b>฿30</b></span>
+      </div>
+      <div class="aud-bar"><i style="width:86%"></i></div>
+    </div>
+
+    <div class="aud-card">
+      <div class="aud-h">🚀 Tech-Driven SME & Scale-Up Startup</div>
+      <div class="aud-sub">Startup / SME สาย tech ที่ต้องการ scale</div>
+      <div class="aud-cost">฿2.02</div>
+      <div class="aud-cost-lbl">Cost per LPV</div>
+      <div class="aud-stats">
+        <span><b>297</b> LPV</span>
+        <span>CTR <b>2.42%</b></span>
+        <span>CPM <b>฿28</b></span>
+      </div>
+      <div class="aud-bar"><i style="width:93%"></i></div>
+    </div>
+
+    <div class="aud-card">
+      <div class="aud-h">👔 High-Value SME Owners</div>
+      <div class="aud-sub">เจ้าของกิจการรายได้สูง · volume ใหญ่สุด</div>
+      <div class="aud-cost">฿2.14</div>
+      <div class="aud-cost-lbl">Cost per LPV</div>
+      <div class="aud-stats">
+        <span><b>927</b> LPV</span>
+        <span>CTR <b>2.35%</b></span>
+        <span>CPM <b>฿30</b></span>
+      </div>
+      <div class="aud-bar"><i style="width:99%"></i></div>
+    </div>
+
+    <div class="aud-card">
+      <span class="aud-badge" style="background:var(--warning);color:#fff">EXPENSIVE</span>
+      <div class="aud-h">💎 Luxury</div>
+      <div class="aud-sub">กลุ่ม High Net Worth · targeting แคบสุด</div>
+      <div class="aud-cost" style="color:#8A5A08">฿2.17</div>
+      <div class="aud-cost-lbl">Cost per LPV (แพงสุด)</div>
+      <div class="aud-stats">
+        <span><b>378</b> LPV</span>
+        <span>CTR <b>2.21%</b></span>
+        <span>CPM <b>฿27</b></span>
+      </div>
+      <div class="aud-bar"><i style="width:100%;background:var(--warning)"></i></div>
+    </div>
+  </div>
+
+  <!-- Age × Gender + Demographic Insight -->
+  <div class="chart-grid" style="margin-top:14px">
+    <div class="card">
+      <h4 style="font-size:13px;font-weight:700;margin-bottom:4px">Age × Gender — CTR & Engagement Pattern</h4>
+      <p style="font-size:11.5px;color:var(--muted);margin-bottom:10px">พฤติกรรม click ชาย-หญิงใกล้เคียงกัน · <b>35–44</b> และ <b>55–64</b> มี CTR สูงสุด (2.47–2.51%) · younger 25–34 volume ดีแต่ CTR รอง</p>
+      <table class="demo-table">
+        <thead><tr><th class="lead">Age Group</th><th>CTR หญิง</th><th>CTR ชาย</th><th>LPV</th><th>Note</th></tr></thead>
+        <tbody>
+          <tr><td class="lead">25–34</td><td>2.28%</td><td>2.31%</td><td class="num-f">340</td><td style="font-size:11px;color:var(--muted)">Volume ดี · convert รอ signal</td></tr>
+          <tr class="hot"><td class="lead">35–44</td><td>2.51%</td><td class="num-f" style="color:var(--yellow-dark)">2.50%</td><td class="num-f">675</td><td style="font-size:11px;color:var(--yellow-dark);font-weight:600">Core segment 🎯 CTR สูงสุด</td></tr>
+          <tr><td class="lead">45–54</td><td>2.42%</td><td>2.28%</td><td class="num-f">592</td><td style="font-size:11px;color:var(--muted)">Volume หลัก · engaged ดี</td></tr>
+          <tr><td class="lead">55–64</td><td>2.47%</td><td>2.32%</td><td class="num-f">128</td><td style="font-size:11px;color:var(--muted)">CTR ดี · volume ยังเล็ก</td></tr>
+        </tbody>
+      </table>
+      <p class="note">* LPV = Landing Page Views (Meta ads · cumulative to 26 ก.ค.) · CTR = click-through rate จาก impression</p>
+    </div>
+
+    <div class="card">
+      <h4 style="font-size:13px;font-weight:700;margin-bottom:10px">Customer Persona · Best Segment</h4>
+      <div style="background:var(--yellow-pale);border-radius:12px;padding:16px;border-left:3px solid var(--yellow-dark)">
+        <div style="font-size:11px;color:var(--yellow-dark);font-weight:700;letter-spacing:.5px">🎯 PRIMARY TARGET</div>
+        <div style="font-family:'Outfit';font-size:22px;font-weight:800;color:var(--black);margin-top:6px;line-height:1.2">35–44 ปี<br>Financial Seeker</div>
+        <div style="font-size:12px;color:var(--gray);margin-top:8px;line-height:1.7">
+          • Cost/LPV ถูกสุด (฿1.86)<br>
+          • CTR 2.51% สูงสุดในทุก segment<br>
+          • มี pain point ชัดเจน (ต้องการทุน / กระแสเงินสด)<br>
+          • Engagement rate สูง — audience ตั้งใจอ่าน content
+        </div>
+      </div>
+      <div style="margin-top:12px;padding:12px;background:var(--bg);border-radius:8px;font-size:12px;color:var(--gray);line-height:1.6">
+        <b style="color:var(--black)">Secondary:</b> 45–54 (volume หลัก) · <b style="color:var(--black)">Test:</b> 55–64 (CTR ดี · scale ยังเล็ก) · <b style="color:var(--black)">De-prioritize:</b> Luxury (แพง · CTR ต่ำสุด 2.21%)
+      </div>
+    </div>
+  </div>
+
+  <!-- Recommendation card -->
+  <div class="card" style="margin-top:14px;background:linear-gradient(90deg,var(--yellow-pale) 0%,#fff 100%);border-left:4px solid var(--yellow)">
+    <h4 style="font-size:14px;font-weight:700;color:var(--black);margin-bottom:8px">💡 Customer Recommendation</h4>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;font-size:12.5px;color:var(--gray)">
+      <div>
+        <b style="color:var(--yellow-dark);font-size:11.5px;letter-spacing:.4px">1 · SHIFT BUDGET</b>
+        <p style="margin-top:4px;line-height:1.6">โยกงบจาก <b style="color:var(--black)">Luxury</b> (คุ้มค่าต่ำ ฿2.17/LPV · 1 register) มา <b style="color:var(--black)">Financial Seeker</b> (฿1.86/LPV · 2 registers) — คาดว่าเพิ่ม register 40–60% ในเงินเท่ากัน</p>
+      </div>
+      <div>
+        <b style="color:var(--yellow-dark);font-size:11.5px;letter-spacing:.4px">2 · CREATIVE STRATEGY</b>
+        <p style="margin-top:4px;line-height:1.6">ปรับ creative หลักไปที่ <b style="color:var(--black)">35–44 pain point ทางการเงิน</b> · lookalike จาก audience Financial Seeker · ทดสอบ hook แบบ testimonial ของ SME ที่รอดวิกฤต</p>
+      </div>
+      <div>
+        <b style="color:var(--yellow-dark);font-size:11.5px;letter-spacing:.4px">3 · RETARGET LAYER</b>
+        <p style="margin-top:4px;line-height:1.6">4,580 sessions ที่ engaged แล้วยังไม่ register (Content01) · retarget ด้วย urgency message "เหลืออีก 11 วัน" · คาดว่าจะได้กลับมา 3–5% = 137–229 register</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- ==============  SECTION: META COST ANALYSIS  ================ -->
+<!-- ============================================================ -->
+<section>
+  <div class="sec-title">Meta Cost Analysis · Deep Dive</div>
+  <div class="sec-sub">Cost efficiency ช่องทาง Meta (FB/IG) · Traffic + Awareness · <b>Meta live 20 ก.ค. – 31 ก.ค.</b> (12 วัน) + <b>Aug campaigns เริ่มใหม่ 3 ส.ค.</b> · ตัวเลข extrapolate จาก 20–26 ก.ค. cumulative</div>
+
+  <!-- Row 1: Cost KPI Overview -->
+  <div class="cost-kpi-grid">
+    <div class="cost-kpi hero">
+      <div class="lbl">TOTAL META SPEND (est.)</div>
+      <div class="v">฿9,458</div>
+      <div class="u">20–31 ก.ค. · 12 วัน</div>
+    </div>
+    <div class="cost-kpi">
+      <div class="lbl">Impressions</div>
+      <div class="v">673K</div>
+      <div class="u">CPM ฿14 (overall)</div>
+    </div>
+    <div class="cost-kpi">
+      <div class="lbl">Reach (Unique)</div>
+      <div class="v">591K</div>
+      <div class="u">CPR ฿16 / 1K reach</div>
+    </div>
+    <div class="cost-kpi">
+      <div class="lbl">Link Clicks</div>
+      <div class="v">5,540</div>
+      <div class="u">CPC ฿1.71</div>
+    </div>
+    <div class="cost-kpi">
+      <div class="lbl">Landing Page Views</div>
+      <div class="v">2,974</div>
+      <div class="u">Cost/LPV ฿2.10</div>
+    </div>
+    <div class="cost-kpi">
+      <div class="lbl">Cost / Register (GA4)</div>
+      <div class="v" style="color:var(--yellow-dark)">฿34.9</div>
+      <div class="u">Meta spend ÷ 271 reg</div>
+    </div>
+  </div>
+
+  <!-- Metric definitions helper strip -->
+  <div style="background:var(--bg);border-radius:8px;padding:10px 14px;margin-bottom:14px;font-size:11px;color:var(--gray);line-height:1.7">
+    <b style="color:var(--black)">คำจำกัดความ:</b>
+    <b>CPM</b> Cost per 1,000 impressions · 
+    <b>CPR</b> Cost per 1,000 Reach (คน unique) · 
+    <b>CPC</b> Cost per Link Click (คนคลิกลิงก์) · 
+    <b>LPV</b> Landing Page Views (คลิก + หน้าโหลดจบ · Pixel fire) · 
+    <b>Cost/LPV</b> Spend ÷ LPV (ต้นทุนต่อคนที่ถึงเว็บจริง) · 
+    <b>CTR</b> Click-through rate (%คลิกต่อ impression) · 
+    <b>Cost/Register</b> Spend ÷ Register จริงใน GA4
+  </div>
+
+  <!-- Row 2: Traffic vs Awareness -->
+  <div class="split-row">
+    <div class="split-col traffic">
+      <div class="st-tag">CAMPAIGN OBJECTIVE · TRAFFIC (LPV OPTIMIZATION)</div>
+      <div class="st-name">Traffic Campaign</div>
+      <div class="st-metrics">
+        <div class="sm-item"><div class="l">Spend</div><div class="v">฿6,259</div></div>
+        <div class="sm-item"><div class="l">% of Meta Spend</div><div class="v">66.2%</div></div>
+        <div class="sm-item"><div class="l">Reach (unique)</div><div class="v">180K</div></div>
+        <div class="sm-item"><div class="l">CPR (Cost/1K Reach)</div><div class="v">฿34.87</div></div>
+        <div class="sm-item"><div class="l">Link Clicks</div><div class="v">5,083</div></div>
+        <div class="sm-item"><div class="l">CPC (Cost/Click)</div><div class="v" style="color:#0B7A57">฿1.23</div></div>
+        <div class="sm-item"><div class="l">Landing Page Views</div><div class="v">2,974</div></div>
+        <div class="sm-item"><div class="l">Cost / LPV</div><div class="v" style="color:#0B7A57">฿2.10</div></div>
+      </div>
+      <div class="st-note">✅ Traffic ทำงาน — พาคน 5,083 คลิก · 2,974 ถึง landing page (58% Click→LPV) · Register 4.05% ของ LPV</div>
+    </div>
+
+    <div class="split-col awareness">
+      <div class="st-tag">CAMPAIGN OBJECTIVE · AWARENESS (REACH OPTIMIZATION)</div>
+      <div class="st-name">Awareness Campaign</div>
+      <div class="st-metrics">
+        <div class="sm-item"><div class="l">Spend</div><div class="v">฿3,198</div></div>
+        <div class="sm-item"><div class="l">% of Meta Spend</div><div class="v">33.8%</div></div>
+        <div class="sm-item"><div class="l">Reach (unique)</div><div class="v">411K</div></div>
+        <div class="sm-item"><div class="l">CPR (Cost/1K Reach)</div><div class="v" style="color:#0B7A57">฿7.78</div></div>
+        <div class="sm-item"><div class="l">Link Clicks</div><div class="v">~457</div></div>
+        <div class="sm-item"><div class="l">CPC (Cost/Click)</div><div class="v">฿7.00</div></div>
+        <div class="sm-item"><div class="l">Impressions</div><div class="v">457K</div></div>
+        <div class="sm-item"><div class="l">CPM</div><div class="v">฿7</div></div>
+      </div>
+      <div class="st-note">⚠ Awareness — reach ถูกที่สุด ฿7.78/1K reach (4.5× ถูกกว่า Traffic) · แต่ 0 register (ตาม objective) · ควร reduce งบ 30% โยกไป Conversion campaign</div>
+    </div>
+  </div>
+
+  <!-- Row 3: Cost by Audience Segment (Detail Table) -->
+  <div class="card">
+    <h4 style="font-size:13px;font-weight:700;margin-bottom:10px">Cost Efficiency แยกตาม Audience Segment · Traffic Campaign</h4>
+    <div style="overflow-x:auto">
+    <table class="cost-aud-table" style="min-width:900px">
+      <thead>
+        <tr>
+          <th>Audience Segment</th>
+          <th class="num">Spend</th>
+          <th class="num">Reach</th>
+          <th class="num">CPR</th>
+          <th class="num">Click</th>
+          <th class="num">CPC</th>
+          <th class="num">LPV</th>
+          <th class="num">Cost/LPV</th>
+          <th class="num">CTR</th>
+          <th class="num">Score</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="best">
+          <td class="name">💰 Financial Seeker</td>
+          <td class="num">฿424</td>
+          <td class="num">11,733</td>
+          <td class="num heat-good">฿36.14</td>
+          <td class="num">379</td>
+          <td class="num heat-good">฿1.12</td>
+          <td class="num">228</td>
+          <td class="num heat-good">฿1.86</td>
+          <td class="num heat-good">2.68%</td>
+          <td class="num"><span class="pill g">⭐ BEST</span></td>
+        </tr>
+        <tr>
+          <td class="name">🚀 Tech-Driven SME</td>
+          <td class="num">฿1,028</td>
+          <td class="num">30,487</td>
+          <td class="num heat-good">฿33.73</td>
+          <td class="num">889</td>
+          <td class="num">฿1.16</td>
+          <td class="num">509</td>
+          <td class="num">฿2.02</td>
+          <td class="num">2.42%</td>
+          <td class="num"><span class="pill g">GOOD</span></td>
+        </tr>
+        <tr>
+          <td class="name">👔 High-Value SME</td>
+          <td class="num">฿3,401</td>
+          <td class="num">94,088</td>
+          <td class="num">฿36.14</td>
+          <td class="num">2,664</td>
+          <td class="num">฿1.28</td>
+          <td class="num">1,589</td>
+          <td class="num">฿2.14</td>
+          <td class="num">2.35%</td>
+          <td class="num"><span class="pill y">VOLUME</span></td>
+        </tr>
+        <tr>
+          <td class="name">💎 Luxury</td>
+          <td class="num">฿1,406</td>
+          <td class="num">43,226</td>
+          <td class="num heat-good">฿32.53</td>
+          <td class="num">1,151</td>
+          <td class="num">฿1.22</td>
+          <td class="num">648</td>
+          <td class="num heat-bad">฿2.17</td>
+          <td class="num heat-bad">2.21%</td>
+          <td class="num"><span class="pill a">EXPENSIVE</span></td>
+        </tr>
+        <tr style="background:#FBF6EA;font-weight:700">
+          <td class="name">TOTAL Traffic</td>
+          <td class="num">฿6,259</td>
+          <td class="num">179,534</td>
+          <td class="num">฿34.87</td>
+          <td class="num">5,083</td>
+          <td class="num">฿1.23</td>
+          <td class="num">2,974</td>
+          <td class="num">฿2.10</td>
+          <td class="num">2.42%</td>
+          <td class="num">—</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+    <p class="note">* Spend / Reach / Click / LPV extrapolate จาก cumulative 20–26 ก.ค. (7 วัน) × 12/7 · <b>CPR</b> = Cost/1K Reach · <b>CPC</b> = Cost/Click · <b>Cost/LPV</b> = Cost/Landing Page View · หมายเหตุ Luxury มี CPR ต่ำ (targeting แคบ · reach ถูก) แต่ Cost/LPV แพงสุด (คลิกแล้วไม่ค่อยถึง page)</p>
+  </div>
+
+  <!-- Row 4: Cost Insight -->
+  <div class="card" style="margin-top:14px;background:linear-gradient(90deg,var(--yellow-pale) 0%,#fff 100%);border-left:4px solid var(--yellow)">
+    <h4 style="font-size:14px;font-weight:700;color:var(--black);margin-bottom:10px">💰 Meta Cost Insight & Reallocation Plan</h4>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;font-size:12.5px;color:var(--gray)">
+      <div>
+        <b style="color:var(--yellow-dark);font-size:11.5px;letter-spacing:.4px">1 · CURRENT COST STRUCTURE</b>
+        <p style="margin-top:4px;line-height:1.6">Meta spend รวม <b style="color:var(--black)">฿9,458</b> ได้ register 271 = <b style="color:var(--black)">฿34.9/reg</b> · เทียบ Line broadcast (ยังไม่มีข้อมูล spend จาก sheet · แต่ conv rate สูงกว่า)</p>
+      </div>
+      <div>
+        <b style="color:var(--yellow-dark);font-size:11.5px;letter-spacing:.4px">2 · REALLOCATION (SAVE ~฿1,500)</b>
+        <p style="margin-top:4px;line-height:1.6">โยกงบ <b style="color:var(--black)">Luxury (฿1,407)</b> ที่ cost/LPV แพงสุด · CTR ต่ำสุด → เพิ่มให้ <b style="color:var(--black)">Financial Seeker + Tech-Driven</b> · คาดว่าเพิ่ม LPV +200 → register +8-10</p>
+      </div>
+      <div>
+        <b style="color:var(--yellow-dark);font-size:11.5px;letter-spacing:.4px">3 · SWITCH OBJECTIVE</b>
+        <p style="margin-top:4px;line-height:1.6">งบ Awareness <b style="color:var(--black)">฿3,198</b> คิดเป็น 34% ของ Meta ทั้งหมด · reach ดี แต่ 0 register · <b style="color:var(--black)">โยก 30% (฿1,000)</b> → Conversion campaign optimize "Complete Registration" ตรง — คาด cost/reg ลดจาก ฿34.9 → ฿20-25</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- ================  SECTION: LINKLY QR CLICKS  ================ -->
+<!-- ============================================================ -->
+<section>
+  <div class="sec-title">Linkly QR Click Tracking — By Campaign</div>
+  <div class="sec-sub">คลิกสะสมจาก short link (QR) แยกตาม utm_campaign · เทียบกับ Session ใน GA4 เพื่อดูสัดส่วน UTM ที่ track ได้จริง</div>
+  <div class="linkly-grid">
+    <div class="link-card">
+      <div class="lk-role"><b>PAID SOCIAL</b> · CONTENT01 TRAFFIC</div>
+      <div class="lk-name">SET_TongRod_July_Content01_Traffic</div>
+      <div class="lk-num">828</div>
+      <div class="lk-sub">total clicks (linkly.link/2mDKu)</div>
+      <span class="lk-today">+20 today · +48 yesterday</span>
+    </div>
+    <div class="link-card">
+      <div class="lk-role"><b>LINE OA</b> · BROADCAST</div>
+      <div class="lk-name">SET_TongRod_line_broadcast</div>
+      <div class="lk-num">1,437</div>
+      <div class="lk-sub">total clicks (linkly.link/2mDkF)</div>
+      <span class="lk-today">+4 today · +24 yesterday</span>
+    </div>
+    <div class="link-card">
+      <div class="lk-role"><b>PAID SOCIAL</b> · AGENDA (TRAFFIC)</div>
+      <div class="lk-name">Agenda-Sessions_traffic</div>
+      <div class="lk-num">125</div>
+      <div class="lk-sub">total clicks (linkly.link/2nhRM)</div>
+      <span class="lk-today">+8 today · +30 yesterday</span>
+    </div>
+    <div class="link-card">
+      <div class="lk-role"><b>PAID SOCIAL</b> · AGENDA (AWARENESS)</div>
+      <div class="lk-name">Awareness_Content-02_Agenda</div>
+      <div class="lk-num">78</div>
+      <div class="lk-sub">total clicks (linkly.link/2pOKf · new 3 ส.ค.)</div>
+      <span class="lk-today">+20 today · +58 yesterday</span>
+    </div>
+    <div class="link-card">
+      <div class="lk-role"><b>GOOGLE</b> · GDN</div>
+      <div class="lk-name">SET_TongRod_July_GDNKV_pageview</div>
+      <div class="lk-num">76</div>
+      <div class="lk-sub">total clicks (linkly.link/2nVSs)</div>
+      <span class="lk-today">+1 today · 0 yesterday</span>
+    </div>
+    <div class="link-card">
+      <div class="lk-role"><b>PAID SOCIAL</b> · PAINPOINT (NEW)</div>
+      <div class="lk-name">Aug_Traffic_Painpoint-solution</div>
+      <div class="lk-num">1</div>
+      <div class="lk-sub">total clicks (linkly.link/2pONE · new 3 ส.ค.)</div>
+      <span class="lk-today">0 today · +1 yesterday</span>
+    </div>
+    <div class="link-card">
+      <div class="lk-role"><b>PAID SOCIAL</b> · MAIN KV AWARENESS</div>
+      <div class="lk-name">Awareness_Content01_Main KV</div>
+      <div class="lk-num">4</div>
+      <div class="lk-sub">total clicks (linkly.link/2pOQT · new 3 ส.ค.)</div>
+      <span class="lk-today">0 today · +4 yesterday</span>
+    </div>
+    <div class="link-card">
+      <div class="lk-role"><b>GOOGLE</b> · SEM (SEARCH)</div>
+      <div class="lk-name">Jul_SEM_search_Max-Click_2026</div>
+      <div class="lk-num">0</div>
+      <div class="lk-sub">total clicks (linkly.link/2pOLa · new 3 ส.ค.)</div>
+      <span class="lk-today">รอ ads เริ่มยิง</span>
+    </div>
+  </div>
+  <p class="note">* Line broadcast คลิกสูงสุด 1,437 · Sessions ใน GA4 = 1,027 · ราว 71% ของคลิก track ผ่าน UTM ได้ · Content01 คลิก 828 vs Sessions 6,106 → คนเห็นแอดคลิกไม่ผ่าน short link (คลิกที่ CTA ตรงๆ) เยอะกว่าที่คิด</p>
+</section>
+
+<!-- ============================================================ -->
+<!-- ================  SECTION: INSIGHTS  ======================== -->
+<!-- ============================================================ -->
+<section>
+  <div class="sec-title">Do Good · Do Better · Do Next — Executive Recommendation</div>
+  <div class="sec-sub">Marketing Intelligence framework: What / Why / Impact / Recommendation / Expected outcome</div>
+  <div class="insight-grid">
+
+    <div class="insight good">
+      <span class="tag">DO GOOD</span>
+      <div class="h">Line broadcast คือ dark horse — conv rate สูงกว่า Main Traffic</div>
+      <p><b>What:</b> Line broadcast conv rate 5.36% > Content01 4.05% · 30 ก.ค. วันเดียวได้ 27 register (ครึ่งหนึ่งของทั้ง campaign)</p>
+      <div class="item"><b>Why:</b> Audience Line OA รู้จักแบรนด์ SET อยู่แล้ว — engagement rate 39.3% (สูงกว่า Content01 25% เกือบเท่าตัว)</div>
+      <div class="item"><b>Recommend:</b> ยิง Line broadcast รอบ 2 ก่อน 15 ส.ค. · เพิ่ม frequency 2×/สัปดาห์ · ทำ segment retarget เฉพาะคนคลิกแล้วไม่สมัคร (linkly คลิก 1,437 – GA4 sess 1,027 = ~410 คนหลุด UTM)</div>
+      <div class="item"><b>Expected:</b> ถ้ายิง 2 รอบเพิ่มได้อีก ~50 register · เพิ่มโอกาส hit KPI 3%</div>
+    </div>
+
+    <div class="insight better">
+      <span class="tag">DO BETTER</span>
+      <div class="h">GDN + SEM ยัง 0 register — tracking หรือ setup ปัญหา</div>
+      <p><b>What:</b> GDN ยิงมา 76 sessions แต่ engaged=0 และ register=0 · SEM เพิ่งเริ่ม 3 ส.ค. ยังไม่มี clicks · Awareness campaigns 79 sessions · reg=0 (ตามคาด แต่ต้องเช็คว่า engaged ต่ำเกินไปหรือเปล่า)</p>
+      <div class="item"><b>Why:</b> GDN engaged=0 = tag hit ไม่ครบ (bounce ทันที หรือ GA4 event ไม่ยิง) · SEM ยังไม่มี click แสดงว่าคีย์เวิร์ดยัง match น้อย/bid ต่ำ</div>
+      <div class="item"><b>Recommend:</b> <b>1)</b> Debug GDN tracking (GTM-PZCV5FM3) ให้จบก่อน 5 ส.ค. — จนกว่า engaged > 0 อย่าเทงบเพิ่ม · <b>2)</b> SEM ตรวจ Max-Click strategy กับ keyword coverage — bid ยังต่ำหรือคำผิด · <b>3)</b> Content02 Agenda conv 2.06% ต่ำสุดในกลุ่ม traffic — พิจารณาสลับกลับไป Main KV creative</div>
+      <div class="item"><b>Expected:</b> ถ้า GDN + SEM ทำงานปกติจะเพิ่ม register ~5-8/วัน · Content02 ถ้าเพิ่ม conv เป็น 3.5% จะเพิ่ม 17 reg ในช่วงที่เหลือ</div>
+    </div>
+
+    <div class="insight next">
+      <span class="tag">DO NEXT</span>
+      <div class="h">เปลี่ยน main objective เป็น Conversion Campaign — 11 วันเหลือ 1,480 register</div>
+      <p><b>What:</b> Pace ปัจจุบัน 17.8/วัน · ต้องการ 134/วัน (7.5×) · หากคง strategy เดิมจะจบที่ ~550 register ห่าง KPI 1,268 คน (30%)</p>
+      <div class="item"><b>Recommend:</b> <b>1)</b> เปิด Conversion campaign (Meta optimize "Complete Registration") ทับ Content01 audience เดิม — cost/reg น่าจะลงจาก ~฿50 เป็น ฿25-30 · <b>2)</b> Retarget 4,580 sessions ที่ยังไม่ register (6,106–1,526 engaged) · <b>3)</b> ยิง Line broadcast รอบ 2 (Painpoint solution) 5-7 ส.ค.</div>
+      <div class="item"><b>Expected:</b> Conversion campaign + Line rd.2 + retarget → คาดการณ์ +40-60 reg/วัน · จบที่ ~1,200-1,400 · ยังต่ำกว่า KPI แต่ปิด gap ได้ 60-77% · <b>ควร escalate KPI reset กับ SET</b> ถ้ายังพลาด</div>
+    </div>
+
+  </div>
+</section>
+
+<footer style="text-align:center;color:var(--muted);font-size:11px;padding:20px 0 10px">
+  Dashboard generated 4 ส.ค. 2026 · Data source: Google Sheet <code>1-LWiAI...QG38</code> · TPM Social Media Agency · Marketing Intelligence Framework
+</footer>
 
 </div>
 
-<footer>
-  <div class="wrap"><b>SME ต้องรอด 2026</b> · SET × LiVE Platform · Daily Ads Performance Report — อัปเดตอัตโนมัติทุกวัน 19:30 น. · ข้อมูล: Meta Ads 20–26 ก.ค. / GA4 20–26 ก.ค. / Linkly (snapshot 29 ก.ค.) · ข้อมูลลับเฉพาะโครงการ</div>
-</footer>
-
 <script>
-const YELLOW='#F9B233',BLACK='#111111',GRAY='#3F3F3F',MUTED='#9CA3AF',GREEN='#10B981',AMBER='#F59E0B';
+Chart.register(ChartDataLabels);
 Chart.defaults.font.family="'IBM Plex Sans Thai',sans-serif";
-Chart.defaults.font.size=11.5;
 Chart.defaults.color='#6B7280';
 
-// ===== DAILY DATA (GA4) =====
+const YELLOW='#F9B233',YELLOW_D='#E09A14',BLACK='#111111',GRAY='#8C8C8C',LGRAY='#C9C9C9';
+
+// Daily aggregated from GA4 raw
 const DAILY=[
- {d:'2026-07-20',lb:'20 ก.ค.',reg:194,sess:771, direct:356,ps:159,ref:220,gdn:0,   other:36},
- {d:'2026-07-21',lb:'21 ก.ค.',reg:321,sess:1268,direct:454,ps:556,ref:214,gdn:0,   other:44},
- {d:'2026-07-22',lb:'22 ก.ค.',reg:166,sess:2175,direct:349,ps:440,ref:141,gdn:1165,other:80},
- {d:'2026-07-23',lb:'23 ก.ค.',reg:141,sess:891, direct:260,ps:494,ref:86, gdn:21,  other:30},
- {d:'2026-07-24',lb:'24 ก.ค.',reg:94, sess:761, direct:227,ps:433,ref:65, gdn:6,   other:30},
- {d:'2026-07-25',lb:'25 ก.ค.',reg:12, sess:508, direct:35, ps:459,ref:1,  gdn:5,   other:8},
- {d:'2026-07-26',lb:'26 ก.ค.',reg:27, sess:571, direct:30, ps:524,ref:5,  gdn:1,   other:11},
+  {d:'2026-07-16',lb:'16',reg:1,sess:9,paid_sess:6,other_sess:3},
+  {d:'2026-07-17',lb:'17',reg:1,sess:14,paid_sess:13,other_sess:1},
+  {d:'2026-07-18',lb:'18',reg:11,sess:48,paid_sess:47,other_sess:1},
+  {d:'2026-07-19',lb:'19',reg:9,sess:25,paid_sess:23,other_sess:2},
+  {d:'2026-07-20',lb:'20',reg:5,sess:166,paid_sess:165,other_sess:1},
+  {d:'2026-07-21',lb:'21',reg:32,sess:575,paid_sess:572,other_sess:3},
+  {d:'2026-07-22',lb:'22',reg:20,sess:478,paid_sess:477,other_sess:1},
+  {d:'2026-07-23',lb:'23',reg:34,sess:498,paid_sess:497,other_sess:1},
+  {d:'2026-07-24',lb:'24',reg:14,sess:440,paid_sess:437,other_sess:3},
+  {d:'2026-07-25',lb:'25',reg:7,sess:462,paid_sess:462,other_sess:0},
+  {d:'2026-07-26',lb:'26',reg:8,sess:528,paid_sess:528,other_sess:0},
+  {d:'2026-07-27',lb:'27',reg:14,sess:547,paid_sess:547,other_sess:0},
+  {d:'2026-07-28',lb:'28',reg:7,sess:435,paid_sess:435,other_sess:0},
+  {d:'2026-07-29',lb:'29',reg:9,sess:476,paid_sess:474,other_sess:2},
+  {d:'2026-07-30',lb:'30',reg:54,sess:1355,paid_sess:1338,other_sess:17},
+  {d:'2026-07-31',lb:'31',reg:38,sess:884,paid_sess:866,other_sess:18},
+  {d:'2026-08-01',lb:'1 ส.ค.',reg:36,sess:267,paid_sess:266,other_sess:1},
+  {d:'2026-08-02',lb:'2 ส.ค.',reg:18,sess:308,paid_sess:307,other_sess:1},
+  {d:'2026-08-03',lb:'3 ส.ค.',reg:20,sess:1006,paid_sess:997,other_sess:9},
 ];
-const KPI_TARGET=1818, CAMPAIGN_DAYS=30;
-const fmt=n=>n.toLocaleString('en-US');
+const TARGET=1818, TOTAL_DAYS=30;
 
-// ===== CHANNEL x DAY (GA4): sess / engaged / register =====
-const CH_DAILY={
- 'Paid Social FB/IG': {paid:true, days:{'2026-07-20':[159,16,2], '2026-07-21':[556,158,29],'2026-07-22':[440,88,18], '2026-07-23':[494,139,34],'2026-07-24':[433,114,14],'2026-07-25':[459,92,7],'2026-07-26':[524,107,7]}},
- 'Direct (QR จากแอด)':{paid:true, days:{'2026-07-20':[356,223,79],'2026-07-21':[454,303,117],'2026-07-22':[349,178,96],'2026-07-23':[260,158,76],'2026-07-24':[227,127,57],'2026-07-25':[35,10,2],'2026-07-26':[30,12,16]}},
- 'Display GDN':       {paid:true, days:{'2026-07-22':[1165,593,0],'2026-07-23':[21,8,0],'2026-07-24':[6,0,0],'2026-07-25':[5,1,0],'2026-07-26':[1,0,0]}},
- 'LINE Broadcast':    {paid:true, days:{'2026-07-20':[8,6,3],     '2026-07-21':[8,1,4],      '2026-07-22':[11,1,3],    '2026-07-23':[7,0,0],'2026-07-24':[7,0,2],'2026-07-25':[3,0,1],'2026-07-26':[3,1,2]}},
- 'Referral':          {paid:false,days:{'2026-07-20':[220,163,108],'2026-07-21':[214,134,171],'2026-07-22':[141,90,49],'2026-07-23':[86,51,29],'2026-07-24':[65,41,21],'2026-07-25':[1,1,2],'2026-07-26':[5,5,1]}},
- 'Organic Social':    {paid:false,days:{'2026-07-20':[21,10,2],   '2026-07-21':[11,4,0],     '2026-07-22':[2,1,0],     '2026-07-23':[19,10,2],'2026-07-24':[16,8,0],'2026-07-25':[2,1,0],'2026-07-26':[3,2,1]}},
- 'อื่น ๆ (Search/Cross)':{paid:false,days:{'2026-07-20':[7,5,0],  '2026-07-21':[25,3,0],     '2026-07-22':[67,18,0],   '2026-07-23':[4,1,0],'2026-07-24':[7,1,0],'2026-07-25':[3,0,0],'2026-07-26':[5,0,0]}},
-};
-function convPill(rate,reg,sess){
-  if(!sess) return '<span class="pill d">—</span>';
-  if(reg===0) return '<span class="pill a">0%</span>';
-  const cls=rate>=20?'g':(rate>=5?'g':'d');
-  return `<span class="pill ${cls}">${rate.toFixed(1)}%</span>`;
-}
-function renderFunnel(fromD,toD){
-  const rows=Object.entries(CH_DAILY).map(([name,c])=>{
-    let s=0,e=0,r=0;
-    for(const[d,v]of Object.entries(c.days)){ if(d>=fromD&&d<=toD){s+=v[0];e+=v[1];r+=v[2];} }
-    return {name,paid:c.paid,s,e,r};
-  }).filter(x=>x.s>0).sort((a,b)=>b.r-a.r||b.s-a.s);
-  const tot=rows.reduce((a,x)=>({s:a.s+x.s,e:a.e+x.e,r:a.r+x.r}),{s:0,e:0,r:0});
-  const tb=document.querySelector('#chFunnel tbody');
-  tb.innerHTML=rows.map(x=>{
-    const ePct=x.s?x.e/x.s*100:0, conv=x.s?x.r/x.s*100:0;
-    const barColor=x.paid?'var(--yellow)':'#9C9C9C';
-    return `<tr>
-      <td><b>${x.name}</b> <span class="pill ${x.paid?'g':'d'}" style="margin-left:4px">${x.paid?'Paid':'Organic'}</span></td>
-      <td class="num">${fmt(x.s)}</td>
-      <td><div style="display:flex;align-items:center;gap:8px">
-        <span style="flex:1;height:9px;background:var(--bg);border-radius:5px;overflow:hidden;display:block"><i style="display:block;height:100%;width:${Math.min(ePct,100)}%;background:${barColor};border-radius:5px"></i></span>
-        <span class="num-f" style="font-size:12px;font-weight:700;min-width:86px;text-align:right">${fmt(x.e)} · ${ePct.toFixed(0)}%</span></div></td>
-      <td class="num"><b>${fmt(x.r)}</b></td>
-      <td class="num">${convPill(conv,x.r,x.s)}</td></tr>`;
-  }).join('')
-  +`<tr class="total"><td>รวม</td><td class="num">${fmt(tot.s)}</td><td><span class="num-f" style="font-size:12px;font-weight:700">${fmt(tot.e)} · ${(tot.s?tot.e/tot.s*100:0).toFixed(0)}%</span></td><td class="num">${fmt(tot.r)}</td><td class="num"><span class="pill g">${(tot.s?tot.r/tot.s*100:0).toFixed(1)}%</span></td></tr>`;
+let dailyChart, ciDonut;
+
+function renderCharts(rows){
+  const labels=rows.map(r=>r.lb);
+  if(dailyChart)dailyChart.destroy();
+  dailyChart=new Chart(document.getElementById('dailyChart'),{
+    type:'bar',
+    data:{labels,datasets:[
+      {label:'Paid Sessions',data:rows.map(r=>r.paid_sess),backgroundColor:BLACK,stack:'s',borderRadius:3,order:2},
+      {label:'Organic/Other',data:rows.map(r=>r.other_sess),backgroundColor:GRAY,stack:'s',borderRadius:3,order:2},
+      {label:'Register',data:rows.map(r=>r.reg),type:'line',borderColor:YELLOW_D,backgroundColor:YELLOW_D,borderWidth:2.8,tension:.35,pointRadius:4,pointHoverRadius:6,yAxisID:'y1',order:1,
+       datalabels:{align:'top',color:YELLOW_D,font:{weight:'700',size:10},formatter:v=>v}}
+    ]},
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{
+        legend:{position:'bottom',labels:{boxWidth:10,boxHeight:10,font:{size:11}}},
+        title:{display:true,text:'Daily Sessions (bar) + Register (line)',color:BLACK,font:{size:13,weight:'700'}},
+        datalabels:{display:ctx=>ctx.dataset.type==='line'}
+      },
+      scales:{
+        x:{stacked:true,grid:{display:false}},
+        y:{stacked:true,beginAtZero:true,title:{display:true,text:'Sessions'}},
+        y1:{position:'right',beginAtZero:true,grid:{display:false},title:{display:true,text:'Register'}}
+      }
+    }
+  });
+
+  if(ciDonut)ciDonut.destroy();
+  const totReg=rows.reduce((s,r)=>s+r.reg,0);
+  // For donut we use campaign-level, which is not date-filterable in raw form (single aggregation).
+  // Show full-window donut regardless of filter for simplicity
+  ciDonut=new Chart(document.getElementById('ciDonut'),{
+    type:'doughnut',
+    data:{labels:['Content01 Traffic','Line broadcast','Agenda Sessions','อื่น ๆ (organic/direct)'],
+      datasets:[{data:[247,55,24,12],backgroundColor:[YELLOW,YELLOW_D,GRAY,LGRAY],borderWidth:2,borderColor:'#fff'}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'62%',
+      plugins:{
+        legend:{display:false},
+        title:{display:true,text:'Register by Campaign (ci) · Full window',color:BLACK,font:{size:13,weight:'700'}},
+        datalabels:{color:'#fff',font:{weight:'700',size:12},formatter:(v,c)=>{const p=(v/338*100).toFixed(0);return p>=5?p+'%':''}}
+      }}
+  });
 }
 
-let dailyChart,mixChart;
+// filter
 function filtered(){
   const f=document.getElementById('dFrom').value,t=document.getElementById('dTo').value;
   return DAILY.filter(r=>r.d>=f&&r.d<=t);
 }
-function render(){
+function updateAll(){
   const rows=filtered();
-  const reg=rows.reduce((s,r)=>s+r.reg,0), sess=rows.reduce((s,r)=>s+r.sess,0);
-  const days=Math.max(rows.length,1), avg=Math.round(reg/days);
-  // hero ring uses cumulative (all data)
-  const cumReg=DAILY.reduce((s,r)=>s+r.reg,0);
-  document.getElementById('regBig').textContent=fmt(cumReg);
-  const pct=Math.min(cumReg/KPI_TARGET,1);
-  document.getElementById('ringFill').setAttribute('stroke-dashoffset',465*(1-pct));
-  const cumAvg=Math.round(cumReg/DAILY.length);
-  const daysLeft=Math.max(Math.ceil((KPI_TARGET-cumReg)/cumAvg),0);
-  document.getElementById('paceTxt').innerHTML=`เฉลี่ย <b>${fmt(cumAvg)}/วัน</b> — pace นี้ถึงเป้าในอีก <b>~${daysLeft} วัน</b> (สองวันหลังแผ่วชัด)`;
-  // filtered widgets
-  document.getElementById('fReg').textContent=fmt(reg);
-  document.getElementById('fSess').textContent=fmt(sess);
-  document.getElementById('fRegAvg').textContent=`เฉลี่ย ${fmt(avg)}/วัน`;
-  document.getElementById('fRate').textContent=`Register rate ${(sess?reg/sess*100:0).toFixed(1)}%`;
-  document.getElementById('rangeSub').textContent=rows.length?`แสดง ${rows[0].lb} – ${rows[rows.length-1].lb} (${rows.length} วัน) — เลือกช่วงจากปฏิทินมุมขวาบน`:'ไม่มีข้อมูลในช่วงที่เลือก';
-  // table
-  const tb=document.querySelector('#dailyTable tbody');
-  tb.innerHTML=rows.map(r=>`<tr><td>${r.lb}</td><td class="num"><b>${fmt(r.reg)}</b></td><td class="num">${fmt(r.sess)}</td><td class="num">${fmt(r.direct)}</td><td class="num">${fmt(r.ps)}</td><td class="num">${fmt(r.ref)}</td><td class="num">${r.gdn?fmt(r.gdn):'—'}</td><td class="num">${(r.reg/r.sess*100).toFixed(1)}%</td></tr>`).join('')
-   +`<tr class="total"><td>รวม</td><td class="num">${fmt(reg)}</td><td class="num">${fmt(sess)}</td><td class="num">${fmt(rows.reduce((s,r)=>s+r.direct,0))}</td><td class="num">${fmt(rows.reduce((s,r)=>s+r.ps,0))}</td><td class="num">${fmt(rows.reduce((s,r)=>s+r.ref,0))}</td><td class="num">${fmt(rows.reduce((s,r)=>s+r.gdn,0))}</td><td class="num">${(sess?reg/sess*100:0).toFixed(1)}%</td></tr>`;
-  // channel funnel
-  renderFunnel(document.getElementById('dFrom').value,document.getElementById('dTo').value);
-  // charts
-  const labels=rows.map(r=>r.lb);
-  if(dailyChart)dailyChart.destroy();
-  dailyChart=new Chart(document.getElementById('dailyChart'),{type:'bar',
-    data:{labels,datasets:[
-      {label:'Direct (QR)',data:rows.map(r=>r.direct),backgroundColor:YELLOW,stack:'s',borderRadius:3},
-      {label:'Paid Social',data:rows.map(r=>r.ps),backgroundColor:BLACK,stack:'s',borderRadius:3},
-      {label:'Referral',data:rows.map(r=>r.ref),backgroundColor:'#8C8C8C',stack:'s',borderRadius:3},
-      {label:'Display GDN',data:rows.map(r=>r.gdn),backgroundColor:'#DCDCDC',stack:'s',borderRadius:3},
-      {label:'Register',data:rows.map(r=>r.reg),type:'line',borderColor:'#E09A14',backgroundColor:'#E09A14',borderWidth:2.5,tension:.35,pointRadius:4,yAxisID:'y1'}
-    ]},
-    options:{maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:10,boxHeight:10}},title:{display:true,text:'Sessions รายช่องทาง + เส้น Register',color:BLACK,font:{size:13,weight:'700'}}},
-      scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,beginAtZero:true},y1:{position:'right',beginAtZero:true,grid:{display:false},title:{display:true,text:'Register'}}}}});
-  const dSum=rows.reduce((s,r)=>s+r.direct,0),pSum=rows.reduce((s,r)=>s+r.ps,0),rSum=rows.reduce((s,r)=>s+r.ref,0),gSum=rows.reduce((s,r)=>s+r.gdn,0),oSum=rows.reduce((s,r)=>s+r.other,0);
-  if(mixChart)mixChart.destroy();
-  mixChart=new Chart(document.getElementById('mixChart'),{type:'doughnut',
-    data:{labels:['Direct (QR)','Paid Social','Referral','Display GDN','อื่น ๆ'],
-      datasets:[{data:[dSum,pSum,rSum,gSum,oSum],backgroundColor:[YELLOW,BLACK,'#8C8C8C','#DCDCDC','#F1F1F1'],borderWidth:2,borderColor:'#fff'}]},
-    options:{maintainAspectRatio:false,cutout:'62%',plugins:{legend:{position:'right',labels:{boxWidth:9,boxHeight:9,font:{size:10.5}}},title:{display:true,text:'สัดส่วน Sessions',color:BLACK,font:{size:12,weight:'700'}}}}});
+  renderCharts(rows);
+  const totReg=rows.reduce((s,r)=>s+r.reg,0);
+  const totSess=rows.reduce((s,r)=>s+r.sess,0);
+  const days=rows.length||1;
+  document.getElementById('regBig').textContent=totReg.toLocaleString();
+  document.getElementById('regPct').textContent=(totReg/TARGET*100).toFixed(1)+'%';
+  const ringFill=document.getElementById('ringFill');
+  const C=2*Math.PI*74;
+  ringFill.setAttribute('stroke-dasharray',C);
+  ringFill.setAttribute('stroke-dashoffset',C*(1-Math.min(totReg/TARGET,1)));
+  const pace=(totReg/days).toFixed(1);
+  document.getElementById('pace').textContent=pace+'/day';
 }
-// filter events
-const F=document.getElementById('dFrom'),T=document.getElementById('dTo');
-const chips=[...document.querySelectorAll('.chip')];
-function setChip(el){chips.forEach(c=>c.classList.remove('on'));if(el)el.classList.add('on');}
-F.addEventListener('change',()=>{setChip(null);render()});
-T.addEventListener('change',()=>{setChip(null);render()});
-const MAXD=DAILY[DAILY.length-1].d, MIND=DAILY[0].d;
-F.max=MAXD;T.max=MAXD;
-document.getElementById('chipAll').onclick=e=>{F.value=MIND;T.value=MAXD;setChip(e.target);render()};
-document.getElementById('chip3').onclick=e=>{const i=Math.max(DAILY.length-3,0);F.value=DAILY[i].d;T.value=MAXD;setChip(e.target);render()};
-document.getElementById('chipY').onclick=e=>{F.value=MAXD;T.value=MAXD;setChip(e.target);render()};
-render();
 
-// ===== REGISTER BY CHANNEL (cumulative) =====
-new Chart(document.getElementById('regChannelChart'),{type:'bar',
-  data:{labels:['Direct (QR จากแอด)','Referral','Paid Social FB/IG','LINE Broadcast','Organic Social'],
-    datasets:[{label:'Register',data:[443,381,111,15,5],
-      backgroundColor:[YELLOW,'#8C8C8C',YELLOW,'#06C755','#C9C9C9'],borderRadius:5,barThickness:26}]},
-  options:{indexAxis:'y',maintainAspectRatio:false,
-    plugins:{legend:{display:false},title:{display:true,text:'Register แยกตามช่องทาง (สีเหลือง = Paid Media)',color:BLACK,font:{size:13,weight:'700'}},
-      tooltip:{callbacks:{afterLabel:c=>['Direct ส่วนใหญ่คือ QR scan จากแอด','Organic — ไม่นับเป็นผลงาน ads','ผลงาน ads โดยตรง','Paid push จากฐาน CRM','Organic'][c.dataIndex]}}},
-    scales:{x:{beginAtZero:true,grid:{color:'#F0F0F0'}},y:{grid:{display:false}}}}});
+document.getElementById('dFrom').addEventListener('change',()=>{setChip('');updateAll();});
+document.getElementById('dTo').addEventListener('change',()=>{setChip('');updateAll();});
+document.querySelectorAll('.chip[data-r]').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.chip[data-r]').forEach(b=>b.classList.remove('on'));
+    btn.classList.add('on');
+    const r=btn.dataset.r;
+    const maxD='2026-08-03', minD='2026-07-16';
+    if(r==='all'){document.getElementById('dFrom').value=minD;}
+    else if(r==='7'){const d=new Date(maxD);d.setDate(d.getDate()-6);document.getElementById('dFrom').value=d.toISOString().slice(0,10);}
+    else if(r==='14'){const d=new Date(maxD);d.setDate(d.getDate()-13);document.getElementById('dFrom').value=d.toISOString().slice(0,10);}
+    document.getElementById('dTo').value=maxD;
+    updateAll();
+  });
+});
+function setChip(v){document.querySelectorAll('.chip[data-r]').forEach(b=>b.classList.toggle('on',b.dataset.r===v));}
 
-// ===== PAID vs ORGANIC =====
-new Chart(document.getElementById('paidOrgChart'),{type:'doughnut',
-  data:{labels:['Paid Media (ผลงาน ads) ~525','Organic ~430'],
-    datasets:[{data:[525,430],backgroundColor:[YELLOW,'#D5D5D5'],borderWidth:3,borderColor:'#fff'}]},
-  options:{maintainAspectRatio:false,cutout:'60%',
-    plugins:{legend:{position:'bottom',labels:{boxWidth:10,boxHeight:10,font:{size:11}}},
-      title:{display:true,text:'Paid vs Organic (ประมาณการจากโมเดล Direct)',color:BLACK,font:{size:12.5,weight:'700'}}}}});
+updateAll();
 
-// ===== META DEMO: Awareness reach butterfly =====
-new Chart(document.getElementById('reachDemoChart'),{type:'bar',
-  data:{labels:['25–34','35–44','45–54','55–64'],
+// Channel Group chart
+new Chart(document.getElementById('channelChart'),{
+  type:'bar',
+  data:{
+    labels:['Paid Social (FB/IG)','Line OA','Organic Social','Direct/Other','Display (GDN)','Paid Search (SEM)'],
     datasets:[
-      {label:'หญิง',data:[-8772,-20689,-18306,-1688],backgroundColor:'#8C8C8C',borderRadius:4},
-      {label:'ชาย',data:[44951,83736,47606,3546],backgroundColor:YELLOW,borderRadius:4}
-    ]},
-  options:{indexAxis:'y',maintainAspectRatio:false,
-    plugins:{legend:{position:'bottom',labels:{boxWidth:10,boxHeight:10}},
-      title:{display:true,text:'ใครเห็นแอด — Reach (Awareness) แยกอายุ × เพศ',color:BLACK,font:{size:13,weight:'700'}},
-      tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${Math.abs(c.raw).toLocaleString()}`}}},
-    scales:{x:{stacked:true,ticks:{callback:v=>Math.abs(v).toLocaleString()}},y:{stacked:true,grid:{display:false}}}}});
-
-// ===== META DEMO: Traffic LPV by age x gender =====
-new Chart(document.getElementById('lpvDemoChart'),{type:'bar',
-  data:{labels:['25–34','35–44','45–54','55–64'],
-    datasets:[
-      {label:'หญิง',data:[192,237,210,30],backgroundColor:'#8C8C8C',borderRadius:4},
-      {label:'ชาย',data:[300,363,330,65],backgroundColor:YELLOW,borderRadius:4}
-    ]},
-  options:{maintainAspectRatio:false,
-    plugins:{legend:{position:'bottom',labels:{boxWidth:10,boxHeight:10}},
-      title:{display:true,text:'ใครคลิกเข้าเว็บ — LPV (Traffic) แยกอายุ × เพศ',color:BLACK,font:{size:13,weight:'700'}}},
-    scales:{y:{beginAtZero:true,title:{display:true,text:'LPV'}},x:{grid:{display:false}}}}});
-
-// ===== CTR PIE by age =====
-new Chart(document.getElementById('ctrPieChart'),{type:'pie',
-  plugins:[ChartDataLabels],
-  data:{labels:['25–34','35–44','45–54','55–64'],
-    datasets:[{data:[2.46,2.50,2.32,2.47],
-      backgroundColor:['#D9D9D9',YELLOW,'#8C8C8C','#E09A14'],borderWidth:2,borderColor:'#fff'}]},
-  options:{maintainAspectRatio:false,
-    plugins:{legend:{position:'bottom',labels:{boxWidth:10,boxHeight:10}},
-      title:{display:true,text:'CTR ตามช่วงอายุ (Traffic)',color:BLACK,font:{size:13,weight:'700'}},
-      datalabels:{color:'#111',font:{family:'Outfit',weight:'800',size:13},
-        formatter:v=>v.toFixed(2)+'%'},
-      tooltip:{callbacks:{label:c=>` CTR ${c.raw}%`}}}}});
-
-// ===== AGE (Traffic campaign) =====
-new Chart(document.getElementById('ageChart'),{type:'bar',
-  data:{labels:['25–34','35–44','45–54','55–64'],
-    datasets:[
-      {label:'LPV',data:[495,601,543,96],backgroundColor:BLACK,borderRadius:4,yAxisID:'y'},
-      {label:'฿/LPV',data:[2.10,1.94,2.30,2.03],type:'line',borderColor:'#E09A14',backgroundColor:'#E09A14',borderWidth:2.5,pointRadius:5,yAxisID:'y1'}
-    ]},
-  options:{maintainAspectRatio:false,
-    plugins:{legend:{position:'bottom',labels:{boxWidth:10,boxHeight:10}},title:{display:true,text:'ช่วงอายุ — ปริมาณ (แท่ง) vs ต้นทุน (เส้น)',color:BLACK,font:{size:13,weight:'700'}}},
-    scales:{y:{beginAtZero:true,title:{display:true,text:'LPV'}},y1:{position:'right',min:1.8,max:2.4,grid:{display:false},title:{display:true,text:'฿/LPV'}}}}});
+      {label:'Register',data:[271,55,4,8,0,0],backgroundColor:[YELLOW,'#06C755','#9C9C9C','#C9C9C9','#4285F4','#EA4335'],borderRadius:6,barPercentage:0.7,
+       datalabels:{color:BLACK,anchor:'end',align:'end',font:{weight:'700',size:12,family:"'Outfit'"},formatter:v=>v+' reg'}}
+    ]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,indexAxis:'y',
+    plugins:{
+      legend:{display:false},
+      title:{display:false},
+      tooltip:{callbacks:{
+        label:c=>{
+          const map=[['Sessions',7351,'CR 3.69%'],['Sessions',1027,'CR 5.36%'],['Sessions',19,'CR 21.05%'],['Sessions',40,'CR 20.0%'],['Sessions',76,'CR 0.00%'],['Sessions',8,'CR 0.00%']];
+          const m=map[c.dataIndex];
+          return [`Register: ${c.parsed.x}`,`${m[0]}: ${m[1].toLocaleString()}`,m[2]];
+        }
+      }}
+    },
+    scales:{x:{beginAtZero:true,grid:{color:'#F0F0F0'},title:{display:true,text:'Register'}},y:{grid:{display:false}}}
+  }
+});
 </script>
 </body>
 </html>
