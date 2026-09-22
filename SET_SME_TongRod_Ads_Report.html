@@ -267,8 +267,8 @@ footer code{background:var(--bg);padding:1px 5px;border-radius:4px}
       </div>
     </div>
     <div class="filters">
-      <div class="date-box"><label>จาก</label><input type="date" id="dFrom" value="2026-07-16" min="2026-07-16" max="2026-09-07"></div>
-      <div class="date-box"><label>ถึง</label><input type="date" id="dTo" value="2026-09-07" min="2026-07-16" max="2026-09-07"></div>
+      <div class="date-box"><label>จาก</label><input type="date" id="dFrom" value="2026-07-16" min="2026-07-16" max="2026-09-22"></div>
+      <div class="date-box"><label>ถึง</label><input type="date" id="dTo" value="2026-09-22" min="2026-07-16" max="2026-09-22"></div>
       <button class="chip" data-r="7">7 วันล่าสุด</button>
       <button class="chip" data-r="14">14 วันล่าสุด</button>
       <button class="chip on" data-r="all">ทั้งหมด</button>
@@ -465,7 +465,7 @@ footer code{background:var(--bg);padding:1px 5px;border-radius:4px}
 
 <section>
   <div class="sec-title">Register รายวัน + Session รายช่องทาง</div>
-  <div class="sec-sub">แนวโน้ม 37 วัน (จบ 21 ส.ค.) · เส้นสีเหลืองเข้ม = Register · แท่งสี = Session แยก paid vs organic · จุดพีค: <b>7 ส.ค. 123 reg (peak)</b> · <b>10 ส.ค. 101 reg</b> · <b>final push 17–21 ส.ค. 64–80/วัน</b> · <b>Aug avg 55/day</b> vs Jul avg 17/day · <b>ก.ย. = เฟสหลังงาน (Engagement) ไม่มี register</b> — filter/ปฏิทินเลือกได้ถึง 7 ก.ย.</div>
+  <div class="sec-sub">แนวโน้ม 37 วัน (จบ 21 ส.ค.) · เส้นสีเหลืองเข้ม = Register · แท่งสี = Session แยก paid vs organic · จุดพีค: <b>7 ส.ค. 123 reg (peak)</b> · <b>10 ส.ค. 101 reg</b> · <b>final push 17–21 ส.ค. 64–80/วัน</b> · <b>Aug avg 55/day</b> vs Jul avg 17/day · <b>ก.ย. = เฟสหลังงาน (Engagement) ไม่มี register</b> — filter/ปฏิทินเลือกได้ถึง 22 ก.ย.</div>
   <div class="chart-grid">
     <div class="card"><div class="chart-wrap"><canvas id="dailyChart"></canvas></div></div>
     <div class="card">
@@ -915,7 +915,22 @@ const DAILY=[{d:"2026-07-16",lb:"16",reg:1,paid:6,other:3},
 {d:"2026-09-04",lb:"4 ก.ย.",reg:0,paid:0,other:0},
 {d:"2026-09-05",lb:"5 ก.ย.",reg:0,paid:0,other:0},
 {d:"2026-09-06",lb:"6 ก.ย.",reg:0,paid:0,other:0},
-{d:"2026-09-07",lb:"7 ก.ย.",reg:0,paid:0,other:0}];
+{d:"2026-09-07",lb:"7 ก.ย.",reg:0,paid:0,other:0},
+{d:"2026-09-08",lb:"8 ก.ย.",reg:0,paid:0,other:0},
+{d:"2026-09-09",lb:"9 ก.ย.",reg:0,paid:0,other:0},
+{d:"2026-09-10",lb:"10 ก.ย.",reg:0,paid:0,other:0},
+{d:"2026-09-11",lb:"11 ก.ย.",reg:0,paid:0,other:0},
+{d:"2026-09-12",lb:"12 ก.ย.",reg:0,paid:0,other:0},
+{d:"2026-09-13",lb:"13 ก.ย.",reg:0,paid:0,other:0},
+{d:"2026-09-14",lb:"14 ก.ย.",reg:0,paid:0,other:0},
+{d:"2026-09-15",lb:"15 ก.ย.",reg:0,paid:0,other:0},
+{d:"2026-09-16",lb:"16 ก.ย.",reg:0,paid:0,other:0},
+{d:"2026-09-17",lb:"17 ก.ย.",reg:0,paid:0,other:0},
+{d:"2026-09-18",lb:"18 ก.ย.",reg:0,paid:0,other:0},
+{d:"2026-09-19",lb:"19 ก.ย.",reg:0,paid:0,other:0},
+{d:"2026-09-20",lb:"20 ก.ย.",reg:0,paid:0,other:0},
+{d:"2026-09-21",lb:"21 ก.ย.",reg:0,paid:0,other:0},
+{d:"2026-09-22",lb:"22 ก.ย.",reg:0,paid:0,other:0}];
 let dailyChart;
 function renderDaily(fromISO,toISO){
  const Fd=DAILY.filter(d=>d.d>=fromISO&&d.d<=toISO);
@@ -934,7 +949,7 @@ function renderDaily(fromISO,toISO){
     x:{grid:{display:false},ticks:{font:{size:10},maxRotation:0,autoSkip:true,maxTicksLimit:14}}}}
  });
 }
-renderDaily('2026-07-16','2026-09-07');
+renderDaily('2026-07-16','2026-09-22');
 // donut
 new Chart(document.getElementById('ciDonut'),{
  type:'doughnut',
@@ -960,8 +975,8 @@ new Chart(document.getElementById('channelChart'),{
 });
 // ring animate
 window.addEventListener('load',()=>{const c=465,p=79.2;document.getElementById('ringFill').style.strokeDashoffset=c*(1-p/100);});
-// date filter (functional · จนถึง 7 ก.ย. 2026)
-const DMIN='2026-07-16',DMAX='2026-09-07';
+// date filter (functional · จนถึง 22 ก.ย. 2026)
+const DMIN='2026-07-16',DMAX='2026-09-22';
 function addDays(iso,n){const dt=new Date(iso+'T00:00:00');dt.setDate(dt.getDate()+n);return dt.toISOString().slice(0,10);}
 document.querySelectorAll('.chip[data-r]').forEach(b=>b.addEventListener('click',()=>{
  document.querySelectorAll('.chip[data-r]').forEach(x=>x.classList.remove('on'));b.classList.add('on');
@@ -980,6 +995,6 @@ document.querySelectorAll('.chip[data-r]').forEach(b=>b.addEventListener('click'
 </div>
 <footer>
   SET SME ต้องรอด 2026 · Register by Campaign (ci) Dashboard · GA4 × Meta Ads × Google Ads × Line Linkly<br>
-  ข้อมูล performance ณ 21 ส.ค. 2026 (จบแคมเปญ) · <b>รายงานสรุปประจำเดือน ก.ย. 2026 (ออกรายงาน 20 ก.ย. 2026)</b> · GA4 × Meta Ads × Google Ads × Line Linkly · Event 22 ส.ค. 2026 · จัดทำโดย TPS Marketing · <code>ci = Session Campaign</code>
+  ข้อมูล performance ณ 21 ส.ค. 2026 (จบแคมเปญ) · <b>รายงานสรุปประจำเดือน ก.ย. 2026 (ออกรายงาน 22 ก.ย. 2026)</b> · GA4 × Meta Ads × Google Ads × Line Linkly · Event 22 ส.ค. 2026 · จัดทำโดย TPS Marketing · <code>ci = Session Campaign</code>
 </footer>
 </body></html>
