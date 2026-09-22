@@ -950,6 +950,7 @@ function renderDaily(fromISO,toISO){
  });
 }
 // --- KPI recompute from daily data (makes the date filter drive the numbers, not just the chart) ---
+const DMIN='2026-07-16',DMAX='2026-09-22';
 const KPI_TARGET=1818;
 function updateSummary(fromISO,toISO){
  const R=DAILY.filter(d=>d.d>=fromISO&&d.d<=toISO);
@@ -1000,7 +1001,6 @@ new Chart(document.getElementById('channelChart'),{
 // ring animate
 window.addEventListener('load',()=>{const c=465,p=79.2;document.getElementById('ringFill').style.strokeDashoffset=c*(1-p/100);});
 // date filter (functional · จนถึง 22 ก.ย. 2026)
-const DMIN='2026-07-16',DMAX='2026-09-22';
 function addDays(iso,n){const dt=new Date(iso+'T00:00:00');dt.setDate(dt.getDate()+n);return dt.toISOString().slice(0,10);}
 document.querySelectorAll('.chip[data-r]').forEach(b=>b.addEventListener('click',()=>{
  document.querySelectorAll('.chip[data-r]').forEach(x=>x.classList.remove('on'));b.classList.add('on');
